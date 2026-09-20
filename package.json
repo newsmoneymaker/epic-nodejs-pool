@@ -1,11 +1,11 @@
 {
-  "name": "epic-pool",
-  "version": "1.4.1",
+  "name": "epic-nodejs-pool",
+  "version": "1.0.0",
   "license": "GPL-2.0",
-  "author": "Daniel Vandal",
+  "author": "Daniel Vandal (cryptonote-nodejs-pool), Epic Cash adaptation by the epic-nodejs-pool contributors",
   "repository": {
     "type": "git",
-    "url": "https://github.com/dvandal/cryptonote-nodejs-pool.git"
+    "url": "https://github.com/newsmoneymaker/epic-nodejs-pool.git"
   },
   "dependencies": {
     "async": "^1.5.2",
@@ -14,7 +14,11 @@
     "redis": "3.1.2"
   },
   "engines": {
-    "node": ">=8.11.3"
+    "node": ">=18"
   },
-  "description": "Epic Cash mining pool (based on cryptonote-nodejs-pool)"
+  "description": "Epic Cash mining pool (based on cryptonote-nodejs-pool)",
+  "homepage": "https://github.com/newsmoneymaker/epic-nodejs-pool",
+  "bugs": {
+    "url": "https://github.com/newsmoneymaker/epic-nodejs-pool/issues"
+  }
 }
