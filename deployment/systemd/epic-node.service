@@ -1,0 +1,19 @@
+[Unit]
+Description=Epic Cash node (mainnet)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=epicpool
+WorkingDirectory=/opt/epic-node
+ExecStart=/opt/epic-node/epic server run
+Restart=on-failure
+RestartSec=15
+Nice=10
+LimitNOFILE=65536
+TimeoutStopSec=180
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target

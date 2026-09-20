@@ -225,8 +225,12 @@ function getReadableCoin(stats, coins, digits, withoutSymbol) {
 
 
 // Format payment link
-function formatPaymentLink(hash, merged){
-    return '<a target="_blank" href="' + getTransactionUrl(hash, merged) + '">' + hash + '</a>';
+// (Epic: the explorer has no page per transaction, it lists the kernels inside the block, so the link goes to the block
+// in which the payment was confirmed; the shown "hash" is the kernel excess)
+function formatPaymentLink(hash, merged, height){
+    var shown = hash && hash.length > 24 ? hash.substring(0, 12) + '...' + hash.substring(hash.length - 8) : hash;
+    var txUrl = height ? getTransactionUrl(height, merged) : null;
+    return txUrl ? '<a target="_blank" href="' + txUrl + '" title="' + hash + '">' + shown + '</a>' : '<span title="' + hash + '">' + shown + '</span>';
 }
 
 // Format difficulty
@@ -278,6 +282,13 @@ function getPoolHost() {
     if (typeof poolHost != "undefined") return poolHost;
     if (lastStats.config.poolHost) return lastStats.config.poolHost;
     else return window.location.hostname;
+}
+
+// Round effort in %. pool.roundHashes is measured in fractions of a block (config.blockScale = one block),
+// because Epic's algorithms have unrelated difficulty units (see lib/shares.js).
+function getRoundEffort(stats) {
+    var unit = stats.config.blockScale || stats.network.difficulty;
+    return (stats.pool.roundHashes / unit * 100).toFixed(1);
 }
 
 // Return transaction URL
@@ -592,8 +603,10 @@ function poolBlocks_ParseBlock(height, serializedBlock, stats){
 
 // Get block row element
 function getBlockRowElement(block, jsonString, stats){
-    function formatBlockLink(hash, stats){
-        return '<a target="_blank" href="' + getBlockchainUrl(hash, stats) + '">' + hash + '</a>';
+    // the explorer addresses a block by its height (a hash would be read as a number and open the wrong block)
+    function formatBlockLink(hash, stats, height){
+        var blockUrl = getBlockchainUrl(height, stats);
+        return blockUrl ? '<a target="_blank" href="' + blockUrl + '">' + hash + '</a>' : hash;
     }
 
     var blockStatusClasses = {
@@ -622,7 +635,7 @@ function getBlockRowElement(block, jsonString, stats){
         '<td class="col2">' + reward + '</td>' +
         '<td class="col3">' + block.height + '</td>' +
         '<td class="col4">' + block.difficulty + '</td>' +
-        '<td class="col5">' + formatBlockLink(block.hash, stats) + '</td>' +
+        '<td class="col5">' + formatBlockLink(block.hash, stats, block.height) + '</td>' +
         '<td class="col5" title="Miners Address">' + block.address + '</td>' +
         '<td class="col6" align="right" title="' + block.shares + ' shares submitted">' + formatLuck(block.difficulty, block.shares, block.solo) + '</td>' +
         '<td class="col7">' + block.maturity + '</td>';
@@ -1100,14 +1113,15 @@ function payments_ParsePayment(time, serializedPayment){
         amount: parts[1],
         fee: parts[2],
         mixin: parts[3],
-        recipients: parts[4]
+        recipients: parts[4],
+        height: parts[5]
     };
 }
 
 // Get payment cells
 function payments_GetPaymentCells(payment, stats){
     return '<td class="col1">' + formatDate(payment.time) + '</td>' +
-           '<td class="col2">' + formatPaymentLink(payment.hash, stats) + '</td>' +
+           '<td class="col2">' + formatPaymentLink(payment.hash, stats, payment.height) + '</td>' +
            '<td class="col3">' + (getReadableCoin(stats, payment.amount)) + '</td>' +
            '<td class="col4">' + (getReadableCoin(stats, payment.fee)) + '</td>' +
            '<td class="col5">' + payment.mixin + '</td>' +
@@ -1954,7 +1968,8 @@ function workerstats_ParsePayment(time, serializedPayment){
         amount: parts[1],
         fee: parts[2],
         mixin: parts[3],
-        recipients: parts[4]
+        recipients: parts[4],
+        height: parts[5]
     };
 }
 
@@ -1973,7 +1988,7 @@ function workerstats_GetPaymentRowElement(payment, jsonString, stats){
 // Get payment cells
 function workerstats_GetPaymentCells(payment, stats){
     return '<td class="col1">' + formatDate(payment.time) + '</td>' +
-           '<td class="col2">' + formatPaymentLink(payment.hash, stats) + '</td>' +
+           '<td class="col2">' + formatPaymentLink(payment.hash, stats, payment.height) + '</td>' +
            '<td class="col3">' + getReadableCoin(stats, payment.amount) + '</td>' +
            '<td class="col4">' + payment.mixin + '</td>';
 }
@@ -2198,7 +2213,7 @@ function home_InitTemplate(parentStats, siblingStats) {
                         miners: parentStats.pool.miners.toString(),
                         minersSolo: parentStats.pool.minersSolo.toString()})
         
-        efforts.push({coin: coin, effort: `${(parentStats.pool.roundHashes / parentStats.network.difficulty * 100).toFixed(1)}%`,symbol: parentStats.config.symbol})
+        efforts.push({coin: coin, effort: `${getRoundEffort(parentStats)}%`,symbol: parentStats.config.symbol})
         
         let template = $('#siblingTemplate').html()
         Mustache.parse(template)
@@ -2229,7 +2244,7 @@ function home_InitTemplate(parentStats, siblingStats) {
                         miners: siblingStats[key].pool.miners.toString(),
                         minersSolo: siblingStats[key].pool.minersSolo.toString()})
         
-        efforts.push({coin: key, effort: `${(siblingStats[key].pool.roundHashes / siblingStats[key].network.difficulty * 100).toFixed(1)}%`, symbol: siblingStats[key].config.symbol});     
+        efforts.push({coin: key, effort: `${getRoundEffort(siblingStats[key])}%`, symbol: siblingStats[key].config.symbol});     
 
         if (siblingStats[key].pool.lastBlockFound) {
             let lastChildBlockFound = parseInt(siblingStats[key].pool.lastBlockFound)
@@ -2243,7 +2258,7 @@ function home_InitTemplate(parentStats, siblingStats) {
         updateText(`networkLastReward${key}`, getReadableCoin(siblingStats[key], siblingStats[key].lastblock.reward));
         updateText(`poolMiners${key}`, `${siblingStats[key].pool.miners}/${siblingStats[key].pool.minersSolo}`);
         updateText(`blocksTotal${key}`, `${siblingStats[key].pool.totalBlocks}/${siblingStats[key].pool.totalBlocksSolo}`);
-        updateText(`currentEffort${key}`, (siblingStats[key].pool.roundHashes / siblingStats[key].network.difficulty * 100).toFixed(1) + '%');
+        updateText(`currentEffort${key}`, getRoundEffort(siblingStats[key]) + '%');
     })
 
     sortElementList($(`#networkStats`), $(`#networkStats>div`), siblingStats)
@@ -2271,8 +2286,10 @@ function home_InitTemplate(parentStats, siblingStats) {
     }
 
     let lastHash = updateText('lastHash', parentStats.lastblock.hash)
-    if (lastHash)
-        lastHash.setAttribute('href', getBlockchainUrl(parentStats.lastblock.hash, parentStats));
+    if (lastHash) {
+        var lastUrl = getBlockchainUrl(parentStats.lastblock.height, parentStats);
+        if (lastUrl) lastHash.setAttribute('href', lastUrl); else lastHash.removeAttribute('href');
+    }
 
 
     updateText('poolHashrate', `PROP: ${getReadableHashRateString(parentStats.pool.hashrate)}/sec`);
@@ -2310,5 +2327,5 @@ function home_InitTemplate(parentStats, siblingStats) {
 
     updateText('blockSolvedTime', getReadableTime(parentStats.network.difficulty / parentStats.pool.hashrate));
 
-    updateText(`currentEffort${coin}`, (parentStats.pool.roundHashes / parentStats.network.difficulty * 100).toFixed(1) + '%');
+    updateText(`currentEffort${coin}`, getRoundEffort(parentStats) + '%');
 }

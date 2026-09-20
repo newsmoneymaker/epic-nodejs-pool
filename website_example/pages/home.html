@@ -272,12 +272,14 @@ currentPage = {
 
             updateText(`poolMiners${updateKey}`, `${stats.pool.miners}/${stats.pool.minersSolo}`);
             updateText(`blocksTotal${updateKey}`, `${stats.pool.totalBlocks}/${stats.pool.totalBlocksSolo}`);
-            updateText(`currentEffort${updateKey}`, (stats.pool.roundHashes / stats.network.difficulty * 100).toFixed(1) + '%');
+            updateText(`currentEffort${updateKey}`, getRoundEffort(stats) + '%');
 
 
             let el = updateText('lastHash', lastStats.lastblock.hash)
-            if (el)
-                el.setAttribute('href', getBlockchainUrl(lastStats.lastblock.hash, lastStats));
+            if (el) {
+                var lastUrl = getBlockchainUrl(lastStats.lastblock.height, lastStats);
+                if (lastUrl) el.setAttribute('href', lastUrl); else el.removeAttribute('href');
+            }
             updateText('poolHashrate', 'PROP: ' + getReadableHashRateString(lastStats.pool.hashrate) + '/sec');
             updateText('poolHashrateSolo', 'SOLO: ' + getReadableHashRateString(lastStats.pool.hashrateSolo) + '/sec');
             var hashPowerSolo = lastStats.pool.hashrateSolo / (lastStats.network.difficulty / lastStats.config.coinDifficultyTarget) * 100;
@@ -286,7 +288,8 @@ currentPage = {
             updateText('hashPower', hashPower.toFixed(2) + '%');
 
 
-            updateText('blockSolvedTime', getReadableTime(lastStats.network.difficulty / lastStats.pool.hashrate));
+            // no hashrate = no estimate (a division by zero would print "Infinity years")
+            updateText('blockSolvedTime', lastStats.pool.hashrate > 0 ? getReadableTime(lastStats.network.difficulty / lastStats.pool.hashrate) : 'N/A');
         }
     }
 };

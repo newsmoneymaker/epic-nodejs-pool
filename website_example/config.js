@@ -1,21 +1,28 @@
-var parentCoin = "COIN";
+/* Epic Cash pool website settings */
 
-var api = "http://poolhost:8117";
-var poolHost = "poolhost.com";
+// Coin name shown next to the pool name
+var parentCoin = "EPIC";
 
-var email = "support@poolhost.com";
-var telegram = "https://t.me/YourPool";
-var discord = "https://discordapp.com/invite/YourPool";
+// Pool API: proxied by Apache from /api to the pool's API on 127.0.0.1
+var api = "/api";
 
-var marketCurrencies = ["{symbol}-BTC", "{symbol}-USD", "{symbol}-EUR", "{symbol}-CAD"];
+// Pool host name shown on the "Getting started" page
+var poolHost = "pool.example.com";
 
-var blockchainExplorer = "http://chainradar.com/{symbol}/block/{id}";
-var transactionExplorer = "http://chainradar.com/{symbol}/transaction/{id}";
+// Contact / community links (leave empty to hide)
+var email = "";
+var telegram = "";
+var discord = "";
+var github = "";
+var minerDownload = "https://epic.pool-pay.com/downloads/";      // poolpayminer (optional menu item; leave empty to hide)
 
+// No exchange data source for Epic, market widgets are hidden
+var marketCurrencies = [];
+
+// Block explorer links (leave empty until an explorer is chosen; blocks are shown without links)
+var blockchainExplorer = "https://explorer.epicmine.io/block/{id}";
+var transactionExplorer = "https://explorer.epicmine.io/block/{id}";
+
+// Theme and default language ("en" or "ru")
 var themeCss = "themes/default.css";
 var defaultLang = "en";
-
-// Merged Mining:
-// var api = "http://poolhost/apiMerged";
-// var blockchainExplorer = "http://explorer.ird.cash/?hash={id}#block";
-// var transactionExplorer = "http://explorer.ird.cash/?hash={id}#transaction";

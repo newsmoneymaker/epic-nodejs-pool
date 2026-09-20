@@ -1,472 +1,389 @@
-<!-- Connection Details -->
-<div class="row">
-    <div class="col-sm-6">
-        <h3><span data-tkey="connectionDetails">Connection Details</span></h3>
-        <div class="card padding-l-10 padding-r-10">
-            <div class="stats">
-                <div><i class="fa fa-cloud"></i> <span data-tkey="miningPoolHost">Mining Pool Address</span>: <span id="miningPoolHost"></span></div>
-                <div><i class="fa fa-cubes"></i> <span data-tkey="cnAlgorithm">Algorithm</span>: <span id="cnAlgorithm"></span></div>
-            </div>
-        </div>
+<!-- Getting started (Epic Cash). Two language blocks; the one matching the site language is shown. -->
 
-        <h4 class="push-up-15"><span data-tkey="username">Username<span></h4>
-        <div class="card padding-l-10 padding-r-10">
-            <div class="stats">
-                <div><i class="fa fa-key"></i> <span data-tkey="usernameDesc">This is your wallet address</span></div>
-                <div id="paymentId"><i class="fa fa-exchange"></i> <span data-tkey="paymentId">Exchange Payment ID</span>: <span><u data-tkey="parentaddress">parent address</u><span id="paymentIdSeparator">.</span><u data-tkey="addrPaymentId">paymentID</u></span></div>
-                <div id="fixedDiff"><i class="fa fa-wrench"></i> <span data-tkey="fixedDiff">Difficulty locking</span>: <span><u data-tkey="parentaddress">parent address</u><span id="fixedDiffSeparator">+</span><u data-tkey="addrDiff">diff</u></span></div>
-            </div>
-        </div>
-
-        <h4 class="push-up-15"><span data-tkey="password">Password</span></h4>
-        <div class="card padding-l-10 padding-r-10">
+<div class="gs" data-gs="en">
+    <div class="row"><div class="col-sm-12"><div class="gsGenerator"></div></div></div>
+    <div class="row">
+        <div class="col-sm-6">
+            <h3>Connection details</h3>
+            <div class="card padding-l-10 padding-r-10">
                 <div class="stats">
-                    <div><i class="fa fa-key"></i> <span data-tkey="usernameDesc2">Use your <strong  id="paymentChildCoins">Iridium OR Nibble wallet address</strong> in the password field for merged mining.</span></div>
-                    <div id="paymentId"><i class="fa fa-exchange"></i> <span data-tkey="paymentId">Exchange Payment ID</span>: <span><u data-tkey="childaddress">child address</u><span id="paymentIdSeparator">+</span><u data-tkey="addrPaymentId">paymentID</u></span></div>
-                    <div><i class="fa fa-server"></i> <span data-tkey="fixedDiff2">Worker Name</span>: <span><u data-tkey="childaddress">child-address</u><span id="fixedDiffSeparator2">@</span><u data-tkey="addrDiff2">workerName</u></span></div>
-                    <div><i class="fa fa-exchange fa-server"></i> <span data-tkey="fixedDiff2PaymentId">Payment ID and Worker Name</span>: <span><u data-tkey="childaddress">child-address</u>+<u data-tkey="">paymentID</u><span id="fixedDiffSeparator2">@</span><u data-tkey="addrDiff2">workerName</u></span></div>
+                    <div><i class="fa fa-cloud"></i> Pool address: <span class="gsHost"></span></div>
+                    <div><i class="fa fa-cubes"></i> Algorithms: RandomX, Epic variant (CPU); ProgPow (GPU); Cuckoo (GPU)</div>
+                    <div><i class="fa fa-lock"></i> Difficulty is fixed by the network node (no vardiff)</div>
                 </div>
-        </div>
-    </div>
+            </div>
 
-    <!-- Mining ports -->
-    <div class="col-sm-6">
-        <h3><span data-tkey="miningPorts">Mining Ports</span></h3>
-        <div class="card">
-            <div id="miningPorts" class="table-responsive">
-                <table class="table table-hover table-striped">
-                    <thead>
-                    <tr>
-                        <th class="col1"><span data-tkey="port">Port</span></th>
-                        <th class="col2"><span data-tkey="portDiff">Starting Difficulty</span></th>
-                        <th class="col3"><span data-tkey="description">Description</span></th>
-                    </tr>
-                    </thead>
-                    <tbody id="miningPorts_rows">
-                    <tr>
-                        <td class="col1"><span class="miningPort"></span></td>
-                        <td class="col2"><span class="miningPortDiff"></span></td>
-                        <td class="col3"><span class="miningPortDesc"></span></td>
-                    </tr>
-                    </tbody>
-                </table>
+            <h4 class="push-up-15">Username</h4>
+            <div class="card padding-l-10 padding-r-10">
+                <div class="stats">
+                    <div><i class="fa fa-key"></i> Your wallet's <strong>epicbox address</strong> (52 characters, starts with <code>es</code>).
+                        Show it with <code>epic-wallet address</code>.</div>
+                    <div><i class="fa fa-server"></i> Optional worker name: <code>address+rig1</code></div>
+                    <div><i class="fa fa-info-circle"></i> Addresses on a custom epicbox port are not supported.</div>
+                </div>
+            </div>
+
+            <h4 class="push-up-15">Password</h4>
+            <div class="card padding-l-10 padding-r-10">
+                <div class="stats">
+                    <div><i class="fa fa-key"></i> Anything, for example <code>x</code></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <h3>Mining ports</h3>
+            <div class="card">
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped">
+                        <thead>
+                        <tr><th>Port</th><th>Description</th></tr>
+                        </thead>
+                        <tbody class="gsPortsBody"></tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
-    
-</div>
 
-<!-- Mining Applications and Configuration Generator -->
-<h3><span data-tkey="miningApps">Mining Applications</span></h3>
+    <div class="row push-up-15">
+        <div class="col-sm-12">
+            <h3 class="push-up-15">About the algorithm (RandomX, Epic variant)</h3>
+            <div class="card padding-l-10 padding-r-10">
+                <p>CPUs mine <strong>RandomX</strong>, but Epic Cash uses its own <strong>modified RandomX</strong>, not the standard one from Monero (<code>rx/0</code>).
+                    The Epic node's RandomX has different instruction frequencies and different AES generator keys (taken from Wownero), so the same input gives a different hash.
+                    In XMRig terms this variant is called <code>rx/epic</code>.</p>
+                <ul>
+                    <li>A miner built for standard RandomX (for example stock XMRig) will produce <strong>invalid shares</strong> on this pool: the hash does not match what the node computes.</li>
+                    <li>Use <code>epic-miner</code> (official) or a miner that explicitly supports Epic / <code>rx/epic</code>.</li>
+                    <li>The block header is hashed as <code>pre_pow</code> followed by the 64-bit nonce (big-endian); the RandomX seed is the epoch seed sent by the node with every job.</li>
+                    <li>RandomX in fast mode needs about 2.3 GB of RAM; the pool difficulty is fixed by the node (no vardiff).</li>
+                </ul>
+            </div>
 
-<!-- Configuration Generator -->
-<div class="card padding-15">
-    <p><span data-tkey="configGeneratorDesc">Generate your custom configuration to mine on our pool</span></p>
-    <div id="configGenerator" class="row">
-        <div class="col-sm-3 col-xs-8">
-            <div class="input-group push-down-5">
-                <span class="input-group-addon"><i class="fa fa-link"></i></span>
-                <select class="form-control" id="gMiningPort"></select>
+            <h3 class="push-up-15">epic-miner setup</h3>
+            <div class="card padding-l-10 padding-r-10">
+                <p>Use the official <code>epic-miner</code> and set these values in <code>epic-miner.toml</code>.
+                    Miners for the Monero protocol (XMRig and similar) are <strong>not compatible</strong>: Epic uses its own stratum protocol.</p>
+<pre>[mining]
+algorithm = "RandomX"            # or "ProgPow" / "Cuckoo"
+stratum_server_addr = "<span class="gsHost"></span>:<span class="gsPort"></span>"
+stratum_server_tls_enabled = false
+stratum_server_login = "YOUR_EPICBOX_ADDRESS+rig1"
+stratum_server_password = "x"</pre>
+                <p>Login formats: <code>ADDRESS</code>, <code>ADDRESS+worker</code>, and with a reward mode prefix
+                    <code>prop:ADDRESS</code> (shared reward, default) or <code>solo:ADDRESS</code> (the block finder takes the reward).</p>
+                <p><strong>Encrypted connection (TLS):</strong> port <code>3334</code> accepts stratum over TLS.
+                    Use it if the plain port <code>3333</code> keeps disconnecting: some routers, providers and firewalls cut unencrypted mining traffic.
+                    In <code>epic-miner.toml</code> set <code>stratum_server_addr = "<span class="gsHost"></span>:3334"</code> and <code>stratum_server_tls_enabled = true</code>;
+                    in poolpayminer use <code>"url": "<span class="gsHost"></span>:3334", "tls": true</code>.</p>
+            </div>
+
+            <h3 class="push-up-15">Software</h3>
+            <div class="card padding-l-10 padding-r-10">
+                <ul>
+                    <li><strong>poolpayminer (miner for Epic Cash, Windows x64 and Linux x86-64):</strong>
+                        <a href="https://epic.pool-pay.com/downloads/poolpayminer-1.0.0-win64.zip">Windows (zip)</a>, <a href="https://epic.pool-pay.com/downloads/poolpayminer-1.0.0-linux-x64.tar.gz">Linux (tar.gz)</a>
+                        (<a href="https://epic.pool-pay.com/downloads/">all downloads, SHA-256, algorithms</a>, <a href="https://github.com/newsmoneymaker/poolpayminer" target="_blank" rel="noopener">source code on GitHub</a>, <a href="https://github.com/newsmoneymaker/poolpayminer">our copy</a>).
+                        A modified XMRig with Epic Cash support and TLS. <strong>Fee 1%</strong> (1 minute in about 100), shown at start-up; details on the download page.</li>
+                    <li><strong>epic-miner (official):</strong> <a href="https://github.com/EpicCash/epic-miner" target="_blank" rel="noopener">epic-miner</a>
+                        (official, source code). There are no prebuilt releases: build it from source, the steps are in the repository README.
+                        Officially supported platforms: <strong>Linux x86_64 and macOS</strong>.</li>
+                    <li><strong>Wallet</strong> (to get your epicbox address): <a href="https://github.com/EpicCash/epic-wallet/releases" target="_blank" rel="noopener">epic-wallet, command line</a>
+                        or the <a href="https://github.com/EpicCash/epic-gui-wallet/releases" target="_blank" rel="noopener">GUI wallet</a>.</li>
+                </ul>
+                <p>Build the miner (CPU, RandomX):</p>
+<pre>git clone https://github.com/EpicCash/epic-miner
+cd epic-miner
+git submodule update --init --recursive
+cargo build --release                                  # CPU (RandomX)
+# cargo build --release --features opencl              # CPU + GPU (OpenCL)
+# cargo build --release --no-default-features --features cuda,tui   # NVIDIA GPU (CUDA)</pre>
+            </div>
+
+            <h3 class="push-up-15">Rewards and payments</h3>
+            <div class="card padding-l-10 padding-r-10">
+                <ul>
+                    <li>Reward scheme: proportional with time weighting (older shares of a round weigh less).</li>
+                    <li>Block rewards become spendable after <strong>1440 blocks (about 24 hours)</strong>; the pool credits your balance after that.</li>
+                    <li>Payments are sent to your epicbox address. Mimblewimble payments are interactive, so keep your wallet online to receive them.</li>
+                    <li>Shares of different algorithms are weighted by their probability of finding a block, so they are comparable.</li>
+                </ul>
             </div>
         </div>
-        <div class="col-sm-3 col-xs-4">
-            <div class="input-group push-down-5">
-                <span style="white-space: nowrap;">Solo Mining
-                    <label><input type="checkbox" name="solo" id="gSolo" value="1" title="Check if want to mine both pools solo"></label>
-                </span>
-           </div>
-        </div>
-        <div class="col-sm-6 col-xs-12">
-            <div class="input-group push-down-5">
-                <span class="input-group-addon"><i class="fa fa-server"></i></span>
-                <input class="form-control" id="gWorkerName" data-tplaceholder="workerNameField" type="text" placeholder="Worker_Name" /> 
-            </div>
-        </div>
-        <div class="col-sm-6 col-xs-12">
-            <div class="input-group push-down-5">
-                <span class="input-group-addon"><i class="fa fa-key"></i></span>
-                <input class="form-control" id="gAddress" type="text" data-tplaceholder="addressField" placeholder="Wallet Address" required="required" />
-            </div>
-        </div>
-        <div class="col-sm-6 col-xs-12">
-            <div class="input-group push-down-5">
-                <span class="input-group-addon"><i class="fa fa-exchange"></i></span>
-                <input class="form-control" id="gPaymentID" type="text" data-tplaceholder="paymentIdField" placeholder="Parent Payment ID for exchanges (optional)" />
-            </div>
-        </div>
-        <div class="col-sm-6 col-xs-12">
-            <div class="input-group push-down-5">
-                <span class="input-group-addon"><i class="fa fa-key"></i></span>
-                <input class="form-control" id="gChildAddress" type="text" data-tplaceholder="childAddressField" placeholder="Child Address" required="required" />
-            </div>
-        </div>
-        <div class="col-sm-6 col-xs-12">
-            <div class="input-group push-down-5">
-                <span class="input-group-addon"><i class="fa fa-exchange"></i></span>
-                <input class="form-control" id="gChildPaymentID" type="text" data-tplaceholder="childPaymentIdField" placeholder="Child Payment ID for exchanges (optional)" />
-            </div>
-        </div>
-        <div class="col-sm-6 col-xs-12">
-            <div class="input-group push-down-5">
-                <span class="input-group-addon"><i class="fa fa-wrench"></i></span>
-                <input class="form-control" id="gDifficulty" type="text" data-tplaceholder="fixedDiffField" placeholder="Fixed difficulty (optional)" />
-            </div>
-        </div>
-        <div class="col-md-12 push-up-5">
-            <input id="generateConf" type="submit" tvalue="generateConfig" value="Generate configuration" class="btn btn-default"  data-toggle="collapse" href="#xmrstak" />
-        </div>
-    </div>
-</div>
-
-<!-- Mining Applications -->
-<div class="card push-up-5">
-    <div id="miningApps" class="table-responsive">
-        <table class="table">
-            <thead>
-            <tr>
-                <th><i class="fa fa-book"></i> <span data-tkey="appName">App Name</span></th>
-                <th><i class="fa fa-car"></i> <span data-tkey="appArch">Architecture</span></th>
-                <th><i class="fa fa-star"></i> <span data-tkey="appDesc">Features</span></th>
-                <th><i class="fa fa-download"></i> <span data-tkey="download">Download</span></th>
-                <th><i class="fa fa-file-code-o"></i> <span data-tkey="configuration">Configuration</span></th>
-            </tr>
-            </thead>
-            <tbody id="miningApps_rows">
-	    
-	    <!-- XMR Stak -->
-            <tr class="appInfo">
-                <td class="miningAppTitle">XMR Stak</td>
-                <td>CPU & GPU (AMD/NVIDIA)</td>
-                <td>Easy to use CPU + GPU Mining App</td>
-                <td><a class="btn btn-success" target="_blank" href="https://github.com/fireice-uk/xmr-stak/releases/latest"><span data-tkey="download">Download</span></a></td>
-                <td><a class="btn btn-default" role="button" data-toggle="collapse" href="#xmrstak" aria-expanded="true" aria-controls="collapseExample"><span data-tkey="showConfig">See more</span></a></td>
-            </tr>
-            <tr class="appConfig">
-                <td colspan="5">
-                    <div class="collapse" id="xmrstak">
-		
-<pre><code>"pool_list": [
-    {
-        "pool_address": "<span class="exampleHost">POOL_HOST</span>:<span class="examplePort">PORT</span>",
-        "wallet_address": "<span class="exampleLogin">YOUR_WALLET_ADDRESS</span>",
-        "rig_id": "",
-        "pool_password": /* Solo Mining set [solo:] */"<span class="examplePassword">YOUR_WORKER_NAME</span>",
-        "use_nicehash": false,
-        "use_tls": false, /* Set to true if you are using an SSL port */
-        "tls_fingerprint": "",
-        "pool_weight": 1
-    },
-],
-"currency": "<span id="xmrstakAlgo"></span>",</code></pre>
-
-                    </div>
-                </td>
-            </tr>
-	    
-	    <!-- XMRig -->
-            <tr class="appInfo">
-                <td class="miningAppTitle">XMRig</td>
-                <td>CPU</td>
-                <td>Ligthweight but powerful CPU Mining App</td>
-                <td><a class="btn btn-success" target="_blank" href="https://github.com/xmrig/xmrig/releases/latest"><span data-tkey="download">Download</span></a></td>
-                <td><a class="btn btn-default" role="button" data-toggle="collapse" href="#xmrig" aria-expanded="true" aria-controls="collapseExample"><span data-tkey="showConfig">See more</span></a></td>
-            </tr>
-            <tr class="appConfig">
-                <td colspan="5">
-                    <div class="collapse" id="xmrig">
-		
-<pre><code>"pools": [
-    {
-        "url": "<span class="exampleHost">POOL_HOST</span>:<span class="examplePort">PORT</span>",
-        "user": "<span class="exampleLogin">YOUR_WALLET_ADDRESS</span>",
-        "pass": "<span class="examplePassword">YOUR_WORKER_NAME</span>",
-        "keepalive": true,
-        "nicehash": false,
-        "variant": "!msr",
-        "algo": "<span id="xmrigAlgoCPU"></span>"
-    }
-],</code></pre>
-
-                    </div>
-                </td>
-            </tr>
-
-	    <!-- XMRig-AMD -->
-            <tr class="appInfo">
-                <td class="miningAppTitle">XMRig-AMD</td>
-                <td>OpenCL (AMD)</td>
-                <td>XMRIG version for AMD GPU</td>
-                <td><a class="btn btn-success" target="_blank" href="https://github.com/xmrig/xmrig-amd/releases/latest"><span data-tkey="download">Download</span></a></td>
-                <td><a class="btn btn-default" role="button" data-toggle="collapse" href="#xmrig-amd" aria-expanded="true" aria-controls="collapseExample"><span data-tkey="showConfig">See more</span></a></td>
-            </tr>
-            <tr class="appConfig">
-                <td colspan="5">
-                    <div class="collapse" id="xmrig-amd">
-		
-<pre><code>"pools": [
-    {
-        "url": "<span class="exampleHost">POOL_HOST</span>:<span class="examplePort">PORT</span>",
-        "user": "<span class="exampleLogin">YOUR_WALLET_ADDRESS</span>",
-        "pass": "<span class="examplePassword">YOUR_WORKER_NAME</span>"
-        "keepalive": true,
-        "nicehash": false,
-        "variant": "!msr",
-        "algo": "<span id="xmrigAlgoAMD"></span>"
-    }
-],</code></pre>
-
-                    </div>
-                </td>
-            </tr>
-
-	    <!-- XMRig-NVIDIA -->
-            <tr class="appInfo">
-                <td class="miningAppTitle">XMRig-NVIDIA</td>
-                <td>Cuda (Nvidia)</td>
-                <td>XMRIG version for Nvidia GPU</td>
-                <td><a class="btn btn-success" target="_blank" href="https://github.com/xmrig/xmrig-nvidia/releases/latest"><span data-tkey="download">Download</span></a></td>
-                <td><a class="btn btn-default" role="button" data-toggle="collapse" href="#xmrig-nvidia" aria-expanded="true" aria-controls="collapseExample"><span data-tkey="showConfig">See more</span></a></td>
-            </tr>
-            <tr class="appConfig">
-                <td colspan="5">
-                    <div class="collapse" id="xmrig-nvidia">
-		
-<pre><code>"pools": [
-    {
-        "url": "<span class="exampleHost">POOL_HOST</span>:<span class="examplePort">PORT</span>",
-        "user": "<span class="exampleLogin">YOUR_WALLET_ADDRESS</span>",
-        "pass": "<span class="examplePassword">YOUR_WORKER_NAME</span>"
-        "keepalive": true,
-        "nicehash": false
-        "variant": "!msr",
-        "algo": "<span id="xmrigAlgoNVIDIA"></span>"
-    }
-],</code></pre>
-
-                    </div>
-                </td>
-            </tr>
-
-	    <!-- XMRigCC -->
-            <tr class="appInfo">
-                <td class="miningAppTitle">XMRigCC</td>
-                <td>CPU</td>
-                <td>XMRIG Fork, optimized with remote control</td>
-                <td><a class="btn btn-success" target="_blank" href="https://github.com/Bendr0id/xmrigCC/releases/latest"><span data-tkey="download">Download</span></a></td>
-                <td><a class="btn btn-default" role="button" data-toggle="collapse" href="#xmrig-cc" aria-expanded="true" aria-controls="collapseExample"><span data-tkey="showConfig">See more</span></a></td>
-            </tr>
-            <tr class="appConfig">
-                <td colspan="5">
-                    <div class="collapse" id="xmrig-cc">
-		
-<pre><code>"pools": [
-    {
-        "url": "<span class="exampleHost">POOL_HOST</span>:<span class="examplePort">PORT</span>",
-        "user": "<span class="exampleLogin">YOUR_WALLET_ADDRESS</span>",
-        "pass": "<span class="examplePassword">YOUR_WORKER_NAME</span>",
-        "keepalive": true,
-        "nicehash": false,
-        "algo": "<span id="xmrigAlgoCC"></span>",
-        "pow-variant": "!msr"
-    },
-],</code></pre>
-			    </div>
-			</td>
-		    </tr>	    
-            </tbody>
-        </table>
     </div>
 </div>
 
-<!-- Javascript -->
+<div class="gs" data-gs="ru" style="display:none">
+    <div class="row"><div class="col-sm-12"><div class="gsGenerator"></div></div></div>
+    <div class="row">
+        <div class="col-sm-6">
+            <h3>Параметры подключения</h3>
+            <div class="card padding-l-10 padding-r-10">
+                <div class="stats">
+                    <div><i class="fa fa-cloud"></i> Адрес пула: <span class="gsHost"></span></div>
+                    <div><i class="fa fa-cubes"></i> Алгоритмы: RandomX, вариант Epic (CPU); ProgPow (GPU); Cuckoo (GPU)</div>
+                    <div><i class="fa fa-lock"></i> Сложность фиксирована нодой сети (vardiff нет)</div>
+                </div>
+            </div>
+
+            <h4 class="push-up-15">Имя пользователя</h4>
+            <div class="card padding-l-10 padding-r-10">
+                <div class="stats">
+                    <div><i class="fa fa-key"></i> <strong>Epicbox-адрес</strong> вашего кошелька (52 символа, начинается с <code>es</code>).
+                        Показать его: <code>epic-wallet address</code>.</div>
+                    <div><i class="fa fa-server"></i> Имя воркера (необязательно): <code>адрес+rig1</code></div>
+                    <div><i class="fa fa-info-circle"></i> Адреса с нестандартным портом epicbox не поддерживаются.</div>
+                </div>
+            </div>
+
+            <h4 class="push-up-15">Пароль</h4>
+            <div class="card padding-l-10 padding-r-10">
+                <div class="stats">
+                    <div><i class="fa fa-key"></i> Любой, например <code>x</code></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <h3>Порты для майнинга</h3>
+            <div class="card">
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped">
+                        <thead>
+                        <tr><th>Порт</th><th>Описание</th></tr>
+                        </thead>
+                        <tbody class="gsPortsBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row push-up-15">
+        <div class="col-sm-12">
+            <h3 class="push-up-15">Об алгоритме (RandomX, вариант Epic)</h3>
+            <div class="card padding-l-10 padding-r-10">
+                <p>На CPU майнится <strong>RandomX</strong>, но у Epic Cash он <strong>изменённый</strong>, а не стандартный из Monero (<code>rx/0</code>).
+                    В RandomX ноды Epic другие частоты инструкций и другие ключи AES-генератора (как у Wownero), поэтому те же данные дают другой хеш.
+                    В терминах XMRig этот вариант называется <code>rx/epic</code>.</p>
+                <ul>
+                    <li>Майнер, собранный под стандартный RandomX (например, обычный XMRig), будет присылать на этот пул <strong>невалидные шары</strong>: хеш не совпадает с тем, что считает нода.</li>
+                    <li>Используйте <code>epic-miner</code> (официальный) или майнер, в котором явно есть поддержка Epic / <code>rx/epic</code>.</li>
+                    <li>Заголовок блока хешируется как <code>pre_pow</code> и следующий за ним 64-битный nonce (big-endian); seed RandomX - это seed эпохи, который нода присылает с каждым заданием.</li>
+                    <li>RandomX в быстром режиме требует около 2,3 ГБ ОЗУ; сложность на пуле фиксирована нодой (vardiff нет).</li>
+                </ul>
+            </div>
+
+            <h3 class="push-up-15">Настройка epic-miner</h3>
+            <div class="card padding-l-10 padding-r-10">
+                <p>Используйте официальный <code>epic-miner</code> и задайте в <code>epic-miner.toml</code>.
+                    Майнеры протокола Monero (XMRig и аналоги) <strong>несовместимы</strong>: у Epic собственный stratum-протокол.</p>
+<pre>[mining]
+algorithm = "RandomX"            # или "ProgPow" / "Cuckoo"
+stratum_server_addr = "<span class="gsHost"></span>:<span class="gsPort"></span>"
+stratum_server_tls_enabled = false
+stratum_server_login = "ВАШ_EPICBOX_АДРЕС+rig1"
+stratum_server_password = "x"</pre>
+                <p>Форматы логина: <code>АДРЕС</code>, <code>АДРЕС+воркер</code>, а также с режимом награды:
+                    <code>prop:АДРЕС</code> (общая награда, по умолчанию) или <code>solo:АДРЕС</code> (награду получает нашедший блок).</p>
+                <p><strong>Шифрованное соединение (TLS):</strong> порт <code>3334</code> принимает stratum по TLS.
+                    Используйте его, если обычный порт <code>3333</code> постоянно обрывается: некоторые роутеры, провайдеры и фаерволы режут открытый майнинг-трафик.
+                    В <code>epic-miner.toml</code> задайте <code>stratum_server_addr = "<span class="gsHost"></span>:3334"</code> и <code>stratum_server_tls_enabled = true</code>;
+                    в poolpayminer: <code>"url": "<span class="gsHost"></span>:3334", "tls": true</code>.</p>
+            </div>
+
+            <h3 class="push-up-15">Программы</h3>
+            <div class="card padding-l-10 padding-r-10">
+                <ul>
+                    <li><strong>poolpayminer (майнер для Epic Cash, Windows x64 и Linux x86-64):</strong>
+                        <a href="https://epic.pool-pay.com/downloads/poolpayminer-1.0.0-win64.zip">Windows (zip)</a>, <a href="https://epic.pool-pay.com/downloads/poolpayminer-1.0.0-linux-x64.tar.gz">Linux (tar.gz)</a>
+                        (<a href="https://epic.pool-pay.com/downloads/">все загрузки, SHA-256, алгоритмы</a>, <a href="https://github.com/newsmoneymaker/poolpayminer" target="_blank" rel="noopener">исходный код на GitHub</a>, <a href="https://github.com/newsmoneymaker/poolpayminer">наша копия</a>).
+                        Изменённый XMRig с поддержкой Epic Cash и TLS. <strong>Комиссия 1%</strong> (1 минута примерно из 100), пишется при запуске; подробности на странице загрузки.</li>
+                    <li><strong>epic-miner (официальный):</strong> <a href="https://github.com/EpicCash/epic-miner" target="_blank" rel="noopener">epic-miner</a>
+                        (официальный, исходный код). Готовых релизов нет: майнер собирается из исходников, шаги описаны в README репозитория.
+                        Официально поддерживаются <strong>Linux x86_64 и macOS</strong>.</li>
+                    <li><strong>Кошелёк</strong> (чтобы получить epicbox-адрес): <a href="https://github.com/EpicCash/epic-wallet/releases" target="_blank" rel="noopener">epic-wallet, командная строка</a>
+                        или <a href="https://github.com/EpicCash/epic-gui-wallet/releases" target="_blank" rel="noopener">GUI-кошелёк</a>.</li>
+                </ul>
+                <p>Сборка майнера (CPU, RandomX):</p>
+<pre>git clone https://github.com/EpicCash/epic-miner
+cd epic-miner
+git submodule update --init --recursive
+cargo build --release                                  # CPU (RandomX)
+# cargo build --release --features opencl              # CPU + GPU (OpenCL)
+# cargo build --release --no-default-features --features cuda,tui   # NVIDIA GPU (CUDA)</pre>
+            </div>
+
+            <h3 class="push-up-15">Награды и выплаты</h3>
+            <div class="card padding-l-10 padding-r-10">
+                <ul>
+                    <li>Схема наград: пропорциональная с учётом времени (более старые шары раунда весят меньше).</li>
+                    <li>Награда за блок становится доступной через <strong>1440 блоков (около 24 часов)</strong>, после этого пул зачисляет её на ваш баланс.</li>
+                    <li>Выплаты отправляются на ваш epicbox-адрес. Платежи в Mimblewimble интерактивны, поэтому держите кошелёк онлайн, чтобы их получить.</li>
+                    <li>Шары разных алгоритмов взвешиваются по вероятности найти блок, поэтому их можно сравнивать.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
-// Cleanup mining ports
-var lastPortsJson = '';
-var $miningPorts = $('#miningPorts_rows');
-var miningPortTemplate = $miningPorts.html();
-$miningPorts.empty();
+// ---------------------------------------------------------------------------------------------------------------
+// Config generator: address (+ optional deposit note, worker name) -> ready-to-use miner settings
+// ---------------------------------------------------------------------------------------------------------------
+var GS_POOLPAYMINER = true;      // false hides the poolpayminer variants (e.g. until the miner is published)
+var GS_NOTE_REQUIRED_DOMAINS = ['epicbox.nonkyc.io'];   // exchange addresses: the pool needs the deposit note
 
-var $miningPortSelect = $('#gMiningPort');
-$miningPortSelect.empty();
-
-// Update current page
-currentPage = {
-    destroy: function(){
+var gsText = {
+    en: {
+        title: 'Config generator',
+        intro: 'Enter your address and get ready-made settings. Nothing is sent anywhere: the text is built in your browser. <a href="https://epic.pool-pay.com/downloads/">Download poolpayminer</a>.',
+        address: 'Your Epic Cash epicbox address', addressHint: '52 characters, starts with "es"; get it with the wallet command <code>epic-wallet address</code>',
+        note: 'Deposit note (only for exchanges)', noteHint: 'Only if you mine to an exchange deposit address (for example NonKYC): the note / memo the exchange requires. Mining to your own wallet: leave empty.',
+        worker: 'Worker name', tls: 'Encrypted connection (TLS), recommended', miner: 'Miner',
+        mPpm: 'poolpayminer, config.json', mCli: 'poolpayminer, command line', mEpic: 'epic-miner, epic-miner.toml',
+        copy: 'Copy', copied: 'Copied', result: 'Result',
+        errAddress: 'The address must be 52 base58 characters, optionally followed by @domain.',
+        errNote: 'The note may contain digits, letters, "-" and "_" (up to 64).',
+        errWorker: 'The worker name may contain letters, digits, "-" and "_" (up to 32).',
+        errNoteRequired: 'This is an exchange address: the deposit note is required, otherwise the pool refuses the login (and coins sent to the exchange without a note are lost).',
+        fileHint: 'Save as config.json next to poolpayminer.exe', tomlHint: 'Put into epic-miner.toml', cliHint: 'Run in a command prompt'
     },
-    update: function(updateKey){
-        var portsJson = JSON.stringify(lastStats.config.ports);
-        if (lastPortsJson !== portsJson) {
-            lastPortsJson = portsJson;
-            var $miningPortChildren = [];
-	    var $miningPortOptions = [];
-            for (var i = 0; i < lastStats.config.ports.length; i++) {
-                var portData = lastStats.config.ports[i];
-                var $portChild = $(miningPortTemplate);
-                $portChild.find('.miningPort').text(portData.port);
-                $portChild.find('.miningPortDiff').text(formatDifficulty(portData.difficulty));
-                $portChild.find('.miningPortDesc').text(portData.desc);
-                $miningPortChildren.push($portChild);
-		$miningPortOptions.push('<option value="'+portData.port+'">'+portData.port+' &ndash; '+portData.desc+'</option>');
-            }
-            $miningPorts.empty().append($miningPortChildren);
-            $miningPortSelect.empty().append($miningPortOptions);
-            updateTextClasses('examplePort', lastStats.config.ports[0].port.toString());
-        }
-
-        updateText('miningPoolHost', getPoolHost());
-        updateTextClasses('exampleHost', getPoolHost());
-        updateText('paymentIdSeparator', lastStats.config.paymentIdSeparator);
-        updateText('fixedDiffSeparator', lastStats.config.fixedDiffSeparator);
-        let childCoins = Object.keys(mergedStats).join(' or ')
-        updateText('paymentChildCoins', `${childCoins} wallet address`);
-        if (!lastStats.config.fixedDiffEnabled) $('#fixedDiff').hide();
-
-        var coin = lastStats.config.coin.toLowerCase() || null;
-        var cnAlgorithm = lastStats.config.cnAlgorithm || "cryptonight";
-        var cnVariant = lastStats.config.cnVariant || 0;
-
-        algorithm = '';
-        xmrstakAlgo = '';
-        xmrigAlgo = '';
-
-        if (cnAlgorithm == "argon2") {
-            if (cnVariant === 1)
-                algorithm = 'Argon2id WRKZ';
-            else
-                algorithm = 'Argon2id Chukwa';
-        } else if (cnAlgorithm == "randomx") {
-            if (cnVariant === 1)
-                algorithm = 'CryptoNight DefyX';
-            else if (cnVariant === 2)
-                algorithm = 'RandomARQ';
-		xmrigAlgo = 'rx/arq';
-            else if (cnVariant === 17) {
-                algorithm = 'RandomWOW';
-                xmrstakAlgo = 'randomX_wow';
-		xmrigAlgo = 'rx/wow';
-            } else if (cnVariant === 18) {
-                algorithm = 'RandomXL';
-                xmrstakAlgo = 'randomX_loki';
-		xmrigAlgo = 'rx/loki';
-            } else {
-                algorithm = 'RandomX';
-                xmrstakAlgo = 'randomX';
-            }
-        } else if (cnAlgorithm == "cryptonight_light") {
-            if (cnVariant === 1) {
-                algorithm = 'CryptoNight Lite v7';
-                xmrstakAlgo = 'cryptonight_lite_v7';
-		xmrigAlgo = 'cn-lite/0';
-            } else {
-                algorithm = 'CryptoNight Lite';
-                xmrstakAlgo = 'cryptonight_lite';
-		xmrigAlgo = 'cn-lite/1';
-            }
-        } else if (cnAlgorithm == "cryptonight_pico") {
-            algorithm = 'CryptoNight Turtle';
-            xmrstakAlgo = 'cryptonight_turtle';
-	    xmrigAlgo = 'cn-pico';
-        } else if (cnAlgorithm == "cryptonight_heavy") {
-            if (cnVariant === 1) {
-                algorithm = 'CryptoNight Haven';
-                xmrstakAlgo = 'cryptonight_haven';
-		xmrigAlgo = 'cn-heavy/xhv';
-            } else if (cnVariant === 2) {
-                algorithm = 'CryptoNight Saber';
-                xmrstakAlgo = 'cryptonight_bittube2';
-		xmrigAlgo = 'cn-heavy/tube';
-            } else {
-                algorithm = 'CryptoNight Heavy';
-                xmrstakAlgo = 'cryptonight_heavy';
-		xmrigAlgo = 'cn-heavy/0';
-            }
-        } else {
-            if (cnVariant === 1) {
-                algorithm = 'CryptoNight v7';
-                xmrstakAlgo = 'cryptonight_v7';
-		xmrigAlgo = 'cn/1';
-            } else if (cnVariant === 4) {
-                algorithm = 'CryptoNight Fast';
-                xmrstakAlgo = 'cryptonight_masari';
-                xmrigAlgo = 'cn/fast';
-            } else if (cnVariant === 6) {
-                algorithm = 'CryptoNight Alloy';
-                xmrstakAlgo = 'cryptonight_alloy';
-            } else if (cnVariant === 7) {
-                algorithm = 'CryptoNight Arto';
-                xmrstakAlgo = 'cryptonight_arto';
-            } else if (cnVariant === 8) {
-                algorithm = 'CryptoNight v8';
-                xmrstakAlgo = 'cryptonight_v8';
-            } else if (cnVariant === 9) {
-                algorithm = 'CryptoNight v8 Half';
-                xmrstakAlgo = 'cryptonight_v8_half';
-            } else if (cnVariant === 11) {
-                algorithm = 'CryptoNight GPU';
-                xmrstakAlgo = 'cryptonight_gpu';
-            } else if (cnVariant === 13) {
-                algorithm = 'CryptoNight R';
-                xmrstakAlgo = 'cryptonight_r';
-		xmrigAlgo = 'cn/r';
-            } else if (cnVariant === 14) {
-                algorithm = 'CryptoNight v8 ReverseWaltz';
-                xmrstakAlgo = 'cryptonight_v8_reversewaltz';
-            } else if (cnVariant === 15) {
-                algorithm = 'CryptoNight Zelerius';
-                xmrstakAlgo = 'cryptonight_v8_zelerius';
-		xmrigAlgo = 'cn/zls';
-            } else if (cnVariant === 16) {
-                algorithm = 'CryptoNight v8 Double';
-                xmrstakAlgo = 'cryptonight_v8_double';
-		xmrigAlgo = 'cn/double';
-            } else {
-                algorithm = 'CryptoNight';
-                xmrstakAlgo = 'cryptonight
-		xmrigAlgo = 'cn/2';
-            }
-        }
-
-        updateText('cnAlgorithm', algorithm);
-        updateText('xmrstakAlgo', xmrstakAlgo);
-        updateText('xmrigAlgoCPU', xmrigAlgo);
-        updateText('xmrigAlgoAMD', xmrigAlgo);
-        updateText('xmrigAlgoNVIDIA', xmrigAlgo);
-        updateText('xmrigAlgoCC', xmrigAlgo);
+    ru: {
+        title: 'Генератор конфига',
+        intro: 'Введите свой адрес и получите готовые настройки. Ничего никуда не отправляется: текст собирается в вашем браузере. <a href="https://epic.pool-pay.com/downloads/">Скачать poolpayminer</a>.',
+        address: 'Ваш epicbox-адрес Epic Cash', addressHint: '52 символа, начинается с "es"; узнать его можно командой кошелька <code>epic-wallet address</code>',
+        note: 'Метка депозита (только для бирж)', noteHint: 'Только если вы майните на депозитный адрес биржи (например, NonKYC): метка / memo, которую требует биржа. Если майните на свой кошелёк - оставьте пустым.',
+        worker: 'Имя воркера', tls: 'Шифрованное соединение (TLS), рекомендуется', miner: 'Майнер',
+        mPpm: 'poolpayminer, config.json', mCli: 'poolpayminer, командная строка', mEpic: 'epic-miner, epic-miner.toml',
+        copy: 'Копировать', copied: 'Скопировано', result: 'Результат',
+        errAddress: 'Адрес: 52 символа base58, можно с @доменом.',
+        errNote: 'Метка: цифры, буквы, "-" и "_" (до 64 символов).',
+        errWorker: 'Имя воркера: буквы, цифры, "-" и "_" (до 32 символов).',
+        errNoteRequired: 'Это адрес биржи: метка депозита обязательна, иначе пул не пустит вас (а монеты, отправленные на биржу без метки, потеряются).',
+        fileHint: 'Сохраните как config.json рядом с poolpayminer.exe', tomlHint: 'Вставьте в epic-miner.toml', cliHint: 'Запустите в командной строке'
     }
 };
 
-/**
- * Configuration generator
- **/
+function gsEsc(t) { return $('<div>').text(t).html(); }
 
-$('#generateConf').click(function() {
-    // Mining Port
-    var port = $('#gMiningPort').val();
-    updateTextClasses('examplePort', port);
+function gsInit(lang) {
+    var t = gsText[lang];
+    var box = $('.gs[data-gs="' + lang + '"] .gsGenerator');
+    if (!box.length) return;
+    var opts = (GS_POOLPAYMINER ? '<option value="ppm">' + t.mPpm + '</option><option value="cli">' + t.mCli + '</option>' : '') +
+               '<option value="epic">' + t.mEpic + '</option>';
+    box.html(
+        '<h3>' + t.title + '</h3><div class="card padding-l-10 padding-r-10"><p>' + t.intro + '</p><div class="row">' +
+        '<div class="col-sm-6"><label>' + t.address + '</label><input type="text" class="form-control gsAddr" spellcheck="false" autocomplete="off" placeholder="es…@epicbox.epiccash.com">' +
+            '<p class="text-muted"><small>' + t.addressHint + '</small></p></div>' +
+        '<div class="col-sm-3"><label>' + t.worker + '</label><input type="text" class="form-control gsWorker" value="rig1" spellcheck="false" autocomplete="off"></div>' +
+        '<div class="col-sm-3"><label>' + t.miner + '</label><select class="form-control gsMiner">' + opts + '</select></div>' +
+        '</div><div class="row"><div class="col-sm-6"><label>' + t.note + '</label><input type="text" class="form-control gsNote" spellcheck="false" autocomplete="off">' +
+            '<p class="text-muted"><small>' + t.noteHint + '</small></p></div>' +
+        '<div class="col-sm-6"><label>&nbsp;</label><div class="checkbox"><label><input type="checkbox" class="gsTls" checked> ' + t.tls + '</label></div></div></div>' +
+        '<div class="gsErr text-danger" style="display:none"></div>' +
+        '<h4>' + t.result + ' <small class="gsHint"></small> <button type="button" class="btn btn-default btn-xs gsCopy">' + t.copy + '</button></h4>' +
+        '<pre class="gsOut"></pre></div>'
+    );
+    box.on('input change', 'input, select', function () { gsRender(lang); });
+    box.on('click', '.gsCopy', function () {
+        var text = box.find('.gsOut').text(), btn = $(this);
+        var done = function () { btn.text(t.copied); setTimeout(function () { btn.text(t.copy); }, 1500); };
+        if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, function () {});
+        else { var r = document.createRange(); r.selectNodeContents(box.find('.gsOut')[0]); var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r); try { document.execCommand('copy'); done(); } catch (e) {} }
+    });
+    gsRender(lang);
+}
 
-    // Username
-    var address = $('#gAddress').val().replace(/\s+/g, '').trim();
-    var childAddress = $('#gChildAddress').val().replace(/\s+/g, '').trim();
-    var solo = $('#gSolo').val();
-    var paymentID = $('#gPaymentID').val().replace(/\s+/g, '').trim();
-    var childPaymentID = $('#gChildPaymentID').val().replace(/\s+/g, '').trim();
-    var difficulty = parseInt($('#gDifficulty').val().replace(/\s+/g, '').trim());
-    var workerName = $('#gWorkerName').val().replace(/\s+/g, '').trim();
+function gsRender(lang) {
+    var t = gsText[lang];
+    var box = $('.gs[data-gs="' + lang + '"] .gsGenerator');
+    if (!box.length) return;
 
-    var login = address ? address : 'YOUR_WALLET_ADDRESS';
-    if (paymentID) login = login + lastStats.config.paymentIdSeparator + paymentID;
-    if (difficulty) login = login + lastStats.config.fixedDiffSeparator + difficulty;
-    if ($('input[name=solo]').is(':checked')) login = `solo:${login}`
-    updateTextClasses('exampleLogin', login);
+    var address = $.trim(box.find('.gsAddr').val());
+    var note = $.trim(box.find('.gsNote').val());
+    var worker = $.trim(box.find('.gsWorker').val());
+    var tls = box.find('.gsTls').is(':checked');
+    var miner = box.find('.gsMiner').val();
 
-    // Password
-    var childLogin = childAddress ? childAddress : 'YOUR_CHILD_WALLET_ADDRESS';
-    if (childPaymentID) childLogin = childLogin + lastStats.config.paymentIdSeparator + childPaymentID;
-    if (difficulty) childLogin = childLogin + lastStats.config.fixedDiffSeparator + difficulty;
-    if (workerName) childLogin = `${childLogin}@${workerName}`
+    var errors = [];
+    var m = /^(?:epicbox:\/\/)?([1-9A-HJ-NP-Za-km-z]{52})(@[A-Za-z0-9.\-]+)?$/.exec(address);
+    var shown = address || 'YOUR_EPICBOX_ADDRESS';
+    if (address && !m) errors.push(t.errAddress);
+    if (m) shown = m[1] + (m[2] || '');
+    if (note && !/^[A-Za-z0-9_\-]{1,64}$/.test(note)) errors.push(t.errNote);
+    if (worker && !/^[A-Za-z0-9_\-]{1,32}$/.test(worker)) errors.push(t.errWorker);
+    if (m && m[2] && !note) {
+        var dom = m[2].substring(1).toLowerCase();
+        if (GS_NOTE_REQUIRED_DOMAINS.indexOf(dom) !== -1) errors.push(t.errNoteRequired);
+    }
 
-    updateTextClasses('examplePassword', childLogin);
-});
+    // digits only: written like a payment ID after a dot; otherwise after '#'
+    var login = shown + (note ? (/^[0-9]{1,32}$/.test(note) ? '.' : '#') + note : '') + (worker ? '+' + worker : '');
 
+    var ports = (typeof lastStats !== 'undefined' && lastStats && lastStats.config && lastStats.config.ports) || [];
+    var port = 0, plain = 0, enc = 0;
+    for (var i = 0; i < ports.length; i++) {
+        if (ports[i].tls) { if (!enc) enc = ports[i].port; } else if (!plain) plain = ports[i].port;
+    }
+    port = (tls ? enc : plain) || (enc || plain || 3333);
+    var useTls = tls ? !!enc : false;
+    var host = (typeof getPoolHost === 'function' && typeof lastStats !== 'undefined' && lastStats) ? getPoolHost() : location.hostname;
+    var url = host + ':' + port;
+
+    var out = '', hint = '';
+    if (miner === 'ppm') {
+        hint = t.fileHint;
+        out = JSON.stringify({
+            autosave: false,
+            cpu: {enabled: true, 'huge-pages': true, 'max-threads-hint': 50},
+            randomx: {mode: 'auto'},
+            pools: [{algo: 'rx/epic', epic: true, url: url, user: login, pass: 'x', keepalive: true, tls: useTls}]
+        }, null, 4);
+    } else if (miner === 'cli') {
+        hint = t.cliHint;
+        out = 'poolpayminer.exe --epic ' + (useTls ? '--tls ' : '') + '-o ' + url + ' -u ' + login + ' -p x -k';
+    } else {
+        hint = t.tomlHint;
+        out = '[mining]\nalgorithm = "RandomX"\nstratum_server_addr = "' + url + '"\nstratum_server_tls_enabled = ' + (useTls ? 'true' : 'false') +
+              '\nstratum_server_login = "' + login + '"\nstratum_server_password = "x"';
+    }
+
+    box.find('.gsOut').text(out);
+    box.find('.gsHint').text(hint);
+    box.find('.gsErr').html(errors.map(gsEsc).join('<br>')).toggle(errors.length > 0);
+}
+
+gsInit('en');
+gsInit('ru');
+
+// Show the block that matches the site language (falls back to English)
+var gsLang = (typeof langCode !== 'undefined' && langCode === 'ru') ? 'ru' : 'en';
+$('.gs').hide().filter('[data-gs="' + gsLang + '"]').show();
+
+// Update current page
+var gsLastPorts = '';
+currentPage = {
+    destroy: function () {
+    },
+    update: function () {
+        var ports = (lastStats && lastStats.config && lastStats.config.ports) || [];
+        var portsJson = JSON.stringify(ports);
+        if (gsLastPorts !== portsJson) {
+            gsLastPorts = portsJson;
+            var rows = '';
+            for (var i = 0; i < ports.length; i++) {
+                rows += '<tr><td>' + $('<div>').text(ports[i].port).html() + '</td><td>' +
+                    $('<div>').text(ports[i].desc || '').html() + '</td></tr>';
+            }
+            $('.gsPortsBody').html(rows);
+            $('.gsPort').text(ports.length ? ports[0].port : '');
+        }
+        $('.gsHost').text(getPoolHost());
+        gsRender('en');
+        gsRender('ru');
+    }
+};
 </script>
-

@@ -1,0 +1,17 @@
+[Unit]
+Description=Redis for the Epic Cash pool (127.0.0.1:6380, AOF)
+After=network.target
+
+[Service]
+Type=simple
+User=epicpool
+ExecStart=/usr/bin/redis-server /opt/epic-nodejs-pool/deployment/redis-pool.conf.example
+Restart=always
+RestartSec=3
+LimitNOFILE=10032
+TimeoutStopSec=60
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

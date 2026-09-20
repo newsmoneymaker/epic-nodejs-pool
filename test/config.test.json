@@ -1,0 +1,170 @@
+{
+  "poolHost": "localhost",
+  "coin": "Epic Cash",
+  "symbol": "EPIC",
+  "coinUnits": 100000000,
+  "coinDecimalPlaces": 8,
+  "coinDifficultyTarget": 60,
+  "blockchainExplorer": "",
+  "transactionExplorer": "",
+  "logging": {
+    "files": {
+      "level": "info",
+      "directory": "logs",
+      "flushInterval": 5
+    },
+    "console": {
+      "level": "info",
+      "colors": true
+    }
+  },
+  "poolServer": {
+    "enabled": true,
+    "mergedMining": false,
+    "clusterForks": 1,
+    "minerTimeout": 900,
+    "sslCert": "./cert.pem",
+    "sslKey": "./privkey.pem",
+    "sslCA": "./chain.pem",
+    "requireNoteDomains": [
+      "epicbox.nonkyc.io"
+    ],
+    "maxUnauthenticatedPerIp": 10,
+    "loginTimeout": 3,
+    "ports": [
+      {
+        "port": 13333,
+        "desc": "test"
+      }
+    ],
+    "banning": {
+      "enabled": true,
+      "time": 600,
+      "invalidPercent": 25,
+      "checkThreshold": 30
+    },
+    "slushMining": {
+      "enabled": true,
+      "weight": 300
+    },
+    "bindIp": "127.0.0.1"
+  },
+  "payments": {
+    "enabled": false,
+    "interval": 600,
+    "maxAddresses": 50,
+    "mixin": 3,
+    "priority": 0,
+    "transferFee": 50,
+    "dynamicTransferFee": true,
+    "minerPayFee": true,
+    "minPayment": 10000,
+    "maxTransactionAmount": 100000000,
+    "denomination": 100
+  },
+  "blockUnlocker": {
+    "enabled": false,
+    "interval": 30,
+    "depth": 40,
+    "poolFee": 1,
+    "devDonation": 0,
+    "networkFee": 0.2,
+    "fixBlockHeightRPC": false
+  },
+  "api": {
+    "enabled": true,
+    "hashrateWindow": 600,
+    "updateInterval": 5,
+    "bindIp": "127.0.0.1",
+    "port": 18117,
+    "blocks": 30,
+    "payments": 30,
+    "password": "CHANGE_ME_API_PASSWORD",
+    "ssl": false,
+    "sslPort": 8119,
+    "sslCert": "./cert.pem",
+    "sslKey": "./privkey.pem",
+    "sslCA": "./chain.pem",
+    "trustProxyIP": true
+  },
+  "redis": {
+    "host": "127.0.0.1",
+    "port": 16379,
+    "auth": "CHANGE_ME_REDIS_PASSWORD",
+    "db": 1,
+    "cleanupInterval": 15
+  },
+  "prices": {
+    "source": "tradeogre",
+    "currency": "USD"
+  },
+  "charts": {
+    "pool": {
+      "hashrate": {
+        "enabled": true,
+        "updateInterval": 60,
+        "stepInterval": 1800,
+        "maximumPeriod": 86400
+      },
+      "miners": {
+        "enabled": true,
+        "updateInterval": 60,
+        "stepInterval": 1800,
+        "maximumPeriod": 86400
+      },
+      "workers": {
+        "enabled": true,
+        "updateInterval": 60,
+        "stepInterval": 1800,
+        "maximumPeriod": 86400
+      },
+      "difficulty": {
+        "enabled": true,
+        "updateInterval": 1800,
+        "stepInterval": 10800,
+        "maximumPeriod": 604800
+      },
+      "price": {
+        "enabled": true,
+        "updateInterval": 1800,
+        "stepInterval": 10800,
+        "maximumPeriod": 604800
+      },
+      "profit": {
+        "enabled": true,
+        "updateInterval": 1800,
+        "stepInterval": 10800,
+        "maximumPeriod": 604800
+      }
+    },
+    "user": {
+      "hashrate": {
+        "enabled": true,
+        "updateInterval": 180,
+        "stepInterval": 1800,
+        "maximumPeriod": 86400
+      },
+      "worker_hashrate": {
+        "enabled": true,
+        "updateInterval": 60,
+        "stepInterval": 60,
+        "maximumPeriod": 86400
+      },
+      "payments": {
+        "enabled": true
+      }
+    },
+    "blocks": {
+      "enabled": true,
+      "days": 30
+    }
+  },
+  "node": {
+    "host": "127.0.0.1",
+    "port": 13416,
+    "api": {
+      "host": "127.0.0.1",
+      "port": 3413
+    }
+  }
+}

@@ -1,0 +1,19 @@
+[Unit]
+Description=Epic wallet Owner API 127.0.0.1:3420 (JSON-RPC /v2/owner, basic auth): the pool pays from it
+After=epic-node.service
+Wants=epic-node.service
+
+[Service]
+Type=simple
+User=epicpool
+WorkingDirectory=/opt/epic-wallet
+# the wallet password is typed at the wallet prompt through a pty (deployment/wallet/run-wallet.py), it never appears in argv
+ExecStart=/usr/bin/python3 /opt/epic-nodejs-pool/deployment/wallet/run-wallet.py /opt/epic-wallet owner_api -l 3420
+Restart=always
+RestartSec=30
+TimeoutStopSec=30
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

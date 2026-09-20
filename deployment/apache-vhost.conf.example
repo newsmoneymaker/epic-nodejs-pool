@@ -1,0 +1,24 @@
+# Static website + the public read-only API of the pool. Replace pool.example.com, the paths and the certificate.
+<VirtualHost *:80>
+    ServerName pool.example.com
+    RedirectMatch permanent ^/(.*)$ https://pool.example.com/$1
+</VirtualHost>
+<VirtualHost *:443>
+    ServerName pool.example.com
+    DocumentRoot /var/www/pool.example.com        # copy website_example/ here
+    <Directory /var/www/pool.example.com>
+        Options -Indexes -FollowSymLinks
+        AllowOverride None
+        Require all granted
+    </Directory>
+    SSLEngine on
+    SSLCertificateFile    /etc/letsencrypt/live/pool.example.com/fullchain.pem
+    SSLCertificateKeyFile /etc/letsencrypt/live/pool.example.com/privkey.pem
+
+    # Only these read-only methods of the pool API are exposed. admin_*, set_*, test_* and everything else stay closed.
+    RewriteEngine On
+    RewriteRule ^/api/(stats|live_stats|stats_address|get_payments|get_blocks|get_top10miners|block_explorers|get_apis)/?$ http://127.0.0.1:8117/$1 [P,QSA,L]
+    RewriteRule ^/api/?$ /api.html [L]
+    RewriteRule ^/api(/.*)?$ - [R=404,L]
+</VirtualHost>
+# modules: a2enmod ssl rewrite proxy proxy_http headers

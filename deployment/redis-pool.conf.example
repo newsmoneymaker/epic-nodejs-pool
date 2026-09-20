@@ -1,0 +1,12 @@
+# Redis of the pool (copy, set a real password and the directory, and use the same values in config.json -> redis)
+bind 127.0.0.1
+port 6380
+dir /var/lib/epic-pool-redis
+daemonize no
+requirepass CHANGE_ME_REDIS_PASSWORD
+appendonly yes
+appendfsync everysec
+save 900 1
+save 300 100
+maxmemory 2gb
+maxmemory-policy noeviction

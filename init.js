@@ -21,14 +21,7 @@
  require('./lib/exceptionWriter.js')(logSystem);
 
  // Pool informations
- log('info', logSystem, 'Starting Cryptonote Node.JS pool version %s', [version]);
-
- // Check configuration data
- var poolAddress = config.poolServer.poolAddress || null;
- if (!poolAddress || poolAddress.match(/(\s+|\*)/)) {
-        log('error', logSystem, 'Invalid pool wallet address in configuration file (poolServer.poolAddress)');
-        process.exit();
- }
+ log('info', logSystem, 'Starting Epic Cash pool (cryptonote-nodejs-pool based) version %s', [version]);
 
  // Initialize redis database client
  var redis = require('redis');
@@ -50,12 +43,6 @@
  		case 'pool':
  			require('./lib/pool.js');
  			break;
- 		case 'daemon':
- 			require('./lib/daemon.js')
- 			break
- 		case 'childDaemon':
- 			require('./lib/childDaemon.js')
- 			break
  		case 'blockUnlocker':
  			require('./lib/blockUnlocker.js');
  			break;
@@ -68,20 +55,13 @@
  		case 'chartsDataCollector':
  			require('./lib/chartsDataCollector.js');
  			break;
- 		case 'telegramBot':
- 			require('./lib/telegramBot.js');
- 			break;
  	}
  	return;
  }
 
- // Developer donations
- if (devFee < 0.2)
- 	log('info', logSystem, 'Developer donation \(devDonation\) is set to %d\%, Please consider raising it to 0.2\% or higher !!!', [devFee]);
-
  // Run a single module ?
  var singleModule = (function () {
- 	var validModules = ['pool', 'api', 'unlocker', 'payments', 'chartsDataCollector', 'telegramBot'];
+ 	var validModules = ['pool', 'api', 'unlocker', 'payments', 'chartsDataCollector'];
 
  	for (var i = 0; i < process.argv.length; i++) {
  		if (process.argv[i].indexOf('-module=') === 0) {
@@ -104,9 +84,6 @@
  			log('info', logSystem, 'Running in single module mode: %s', [singleModule]);
 
  			switch (singleModule) {
- 				case 'daemon':
- 					spawnDaemon()
- 					break
  				case 'pool':
  					spawnPoolWorkers();
  					break;
@@ -122,21 +99,14 @@
  				case 'chartsDataCollector':
  					spawnChartsDataCollector();
  					break;
- 				case 'telegramBot':
- 					spawnTelegramBot();
- 					break;
  			}
  		} else {
  			spawnPoolWorkers();
- 			spawnDaemon();
- 			if (config.poolServer.mergedMining)
- 				spawnChildDaemons();
  			spawnBlockUnlocker();
  			spawnPaymentProcessor();
  			spawnApi();
  			spawnChartsDataCollector();
- 			spawnTelegramBot();
- 		}
+  		}
  	});
  })();
 
@@ -309,8 +279,7 @@
  	worker.on('exit', function (code, signal) {
  			log('error', logSystem, 'Daemon died, spawning replacement...');
  			setTimeout(function () {
- 				spawnDaemon();
- 			}, 10);
+ 	 			}, 10);
  		})
  		.on('message', function (msg) {
  			switch (msg.type) {
@@ -409,7 +378,6 @@
  	worker.on('exit', function (code, signal) {
  		log('error', logSystem, 'telegramBot died, spawning replacement...');
  		setTimeout(function () {
- 			spawnTelegramBot();
- 		}, 2000);
+  		}, 2000);
  	});
  }

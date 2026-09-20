@@ -4,7 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1">
 
-    <title>Mining Pool</title>
+    <title>Epic Cash (EPIC) mining pool</title>
+    <meta name="description" content="Epic Cash (EPIC) mining pool: RandomX (rx/epic), ProgPow and Cuckoo. Proportional rewards, TLS stratum ports, payouts to your epicbox address.">
+    <meta name="keywords" content="Epic Cash, EPIC, mining pool, RandomX, rx/epic, epic miner, ProgPow, Cuckoo, poolpayminer, XMRig, TLS stratum">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Epic Cash (EPIC) mining pool">
+    <meta property="og:description" content="RandomX / ProgPow / Cuckoo, PROP rewards, TLS stratum.">
+    
+    
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-timeago/1.6.3/jquery.timeago.min.js"></script>
@@ -52,14 +59,6 @@
 
                 <li><a class="hot_link" data-page="top10miners.html" href="#top10miners">
                     <i class="fa fa-trophy"></i> <span data-tkey="top10miners">Top 10 miners</span>
-                </a></li>
-
-                <li><a class="hot_link" data-page="market.html" href="#market">
-                    <i class="fa fa-bank"></i> <span data-tkey="market">Market / Calculator</span>
-                </a></li>
-
-                <li><a class="hot_link" data-page="settings.html" href="#settings">
-                    <i class="fa fa-gears"></i> <span data-tkey="settings">Settings</span>
                 </a></li>
                 <li><a class="hot_link" data-page="faq.html" href="#faq">
                     <i class="fa fa-comments"></i> <span data-tkey="faq">FAQ</span>
@@ -280,6 +279,12 @@ $(function(){
     }
     if (typeof email !== 'undefined' && email) {
         $('#menu-content').append('<li><a target="_new" href="mailto:'+email+'"><i class="fa fa-envelope"></i> <span data-tkey="contactUs">Contact Us</span></a></li>');
+    }
+    if (typeof minerDownload !== 'undefined' && minerDownload) {
+        $('#menu-content').append('<li><a href="'+minerDownload+'"><i class="fa fa-download"></i> <span data-tkey="downloadMiner">Download miner</span></a></li>');
+    }
+    if (typeof github !== 'undefined' && github) {
+        $('#menu-content').append('<li><a target="_new" rel="noopener" href="'+github+'"><i class="fa fa-github"></i> <span data-tkey="sourceCode">Source code (GitHub)</span></a></li>');
     }
     if (typeof facebook !== 'undefined' && facebook) {
         $('#menu-content').append('<li><a target="_new" href="'+facebook+'"><i class="fa fa-facebook"></i> <span data-tkey="facebook">Facebook</span></a></li>');
