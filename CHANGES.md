@@ -1,5 +1,9 @@
 # Changes
 
+## Unreleased
+
+* The variable difficulty of the validating pool is remembered per address and worker across reconnects (`poolServer.diffMemoryMinutes`, default 15): a miner whose connection is cut or renewed every half minute no longer restarts from the start difficulty each time.
+
 ## 1.1.0
 
 * **New: the pool can check the shares itself** (`poolServer.validateShares: true`, `lib/poolValidating.js`). The node validates one share at a time (about half a
