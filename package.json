@@ -1,6 +1,6 @@
 {
   "name": "epic-nodejs-pool",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "GPL-2.0",
   "author": "Daniel Vandal (cryptonote-nodejs-pool), Epic Cash adaptation by the epic-nodejs-pool contributors",
   "repository": {

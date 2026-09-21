@@ -122,7 +122,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
 	const shares = await rc('hgetall', 'Epic Cash:shares_actual:prop:roundCurrent');
 	const expectShares = 3 * Math.round(4000 / 4000000 * 1e9) + Math.round(200000 / 400000000 * 1e9) + Math.round(3 / 1000000 * 1e9);
 	check('shares_actual = сумма нормированных весов', parseInt(shares[canonical]) === expectShares, 'got ' + shares[canonical] + ' want ' + expectShares);
-	const scores = await rc('hgetall', 'Epic Cash:scores:roundCurrent');
+	const scores = await rc('hgetall', 'Epic Cash:scores:prop:roundCurrent');
 	check('slush score записан и > 0', parseFloat(scores[canonical]) > 0, JSON.stringify(scores));
 	const w = await rc('hgetall', 'Epic Cash:workers:' + canonical);
 	check('workers hash: lastShare есть', !!w.lastShare);
@@ -142,6 +142,11 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
 		check('кандидат: rewardType/login/hash', p[0] === 'prop' && p[1] === canonical && p[2] === 'ab'.repeat(32), cand[0].slice(0, 60) + '…');
 		check('кандидат: difficulty = BLOCK_SCALE', p[4] === '1000000000');
 		check('кандидат: totalShares учитывает шару-блок', parseInt(p[5]) === expectShares + Math.round(4000 / 4000000 * 1e9), 'shares=' + p[5]);
+		// очки раунда (slush) должны сохраняться под высотой блока, иначе майнеры не получат свою долю блока
+		check('кандидат: сумма очков раунда > 0', parseFloat(p[6]) > 0, 'score=' + p[6]);
+		const kept = await rc('hgetall', 'Epic Cash:scores:prop:round3717100');
+		check('очки раунда лежат под высотой блока', !!kept && parseFloat(kept[canonical]) > 0);
+		check('очков раунда нет в ключе без типа награды', (await rc('exists', 'Epic Cash:scores:roundCurrent')) === 0);
 	}
 	const after = await rc('exists', 'Epic Cash:shares_actual:prop:roundCurrent');
 	const round = await rc('exists', 'Epic Cash:shares_actual:prop:round3717100');

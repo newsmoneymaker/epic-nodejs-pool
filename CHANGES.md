@@ -1,5 +1,14 @@
 # Changes
 
+## 1.0.1
+
+* **Fix: block rewards could not be split.** With slush mining (`poolServer.slushMining.enabled`) the round scores were written to the key
+  `<coin>:scores:roundCurrent`, while a found block moves and reads `<coin>:scores:prop:roundCurrent` (and the unlocker `...:round<height>`):
+  the block candidate got a score total of 0 and nobody would have been credited. The scores are now written to
+  `<coin>:scores:<prop|solo>:roundCurrent`. If you already run 1.0.0 with slush mining, stop the pool once and move the old key:
+  `RENAME "<coin>:scores:roundCurrent" "<coin>:scores:prop:roundCurrent"` (solo miners: split by hand), then start the pool on 1.0.1.
+  No block had been found on the live pool when this was fixed. The pool test checks it now.
+
 ## 1.0.0
 
 First release of the Epic Cash adaptation of [cryptonote-nodejs-pool](https://github.com/dvandal/cryptonote-nodejs-pool) 1.4.1 (GPL-2.0).
