@@ -1,0 +1,19 @@
+[Unit]
+Description=Epic Cash pool charts data collector (hash rate, difficulty, miners, workers on the home page)
+After=epic-pool-redis.service epic-pool-api.service
+Requires=epic-pool-redis.service
+[Service]
+Type=simple
+User=epicpool
+WorkingDirectory=/opt/epic-nodejs-pool
+ExecStart=/usr/bin/node /opt/epic-nodejs-pool/init.js -module=chartsDataCollector
+Restart=always
+RestartSec=5
+TimeoutStopSec=30
+NoNewPrivileges=true
+PrivateTmp=true
+# ports below 1024 (for example 993) need this:
+AmbientCapabilities=CAP_NET_BIND_SERVICE
+
+[Install]
+WantedBy=multi-user.target

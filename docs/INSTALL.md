@@ -68,7 +68,7 @@ Edit `config.json`: `poolHost`, the ports and the certificate for TLS (`poolServ
 ```
 cp deployment/systemd/*.service /etc/systemd/system/ && systemctl daemon-reload
 systemctl enable --now epic-pool-redis epic-node epic-wallet epic-wallet-owner epic-wallet-epicbox
-systemctl enable --now epic-pool epic-pool-api epic-pool-unlocker epic-pool-payments
+systemctl enable --now epic-pool epic-pool-api epic-pool-unlocker epic-pool-payments epic-pool-charts
 ```
 
 The pool runs as separate modules (`init.js -module=pool|api|unlocker|payments`), each in its own unit.
