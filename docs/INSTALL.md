@@ -40,6 +40,21 @@ password at the wallet prompt so it never shows up in the process list):
 
 Use a dedicated instance with a password and AOF (`deployment/redis-pool.conf.example`, unit `epic-pool-redis`).
 
+## 3a. RandomX helper (validating mode)
+
+With `poolServer.validateShares: true` the pool checks RandomX shares itself. The helper must use the RandomX **of the Epic node**
+(github.com/EpicCash/randomx: other instruction frequencies and AES keys than Monero's), not the stock one:
+
+```
+git clone https://github.com/EpicCash/randomx && cd randomx && mkdir build && cd build
+cmake .. -DARCH=native -DBUILD_SHARED_LIBS=OFF && make -j4 randomx
+mkdir -p /opt/epic-randomx/include /opt/epic-randomx/lib && cp ../src/randomx.h /opt/epic-randomx/include && cp librandomx.a /opt/epic-randomx/lib
+cd /opt/epic-nodejs-pool/hasher && EPICRANDOMX=/opt/epic-randomx make epichash
+```
+
+Set `hasher.path` in `config.json` (see `config_examples/epic.json`). The helper needs about 2.3 GB of RAM (the RandomX dataset); `"hasher": {"light": true}`
+uses 256 MB and is much slower. Every time the RandomX key of the node changes (an epoch) the pool rebuilds the dataset (about 10 seconds without new jobs).
+
 ## 4. The pool
 
 ```

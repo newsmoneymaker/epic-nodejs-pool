@@ -1,12 +1,12 @@
 {
-  "poolHost": "pool.example.com",
+  "poolHost": "localhost",
   "coin": "Epic Cash",
   "symbol": "EPIC",
   "coinUnits": 100000000,
   "coinDecimalPlaces": 8,
   "coinDifficultyTarget": 60,
-  "blockchainExplorer": "https://explorer.epicmine.io/block/{id}",
-  "transactionExplorer": "https://explorer.epicmine.io/block/{id}",
+  "blockchainExplorer": "",
+  "transactionExplorer": "",
   "logging": {
     "files": {
       "level": "info",
@@ -22,34 +22,19 @@
     "enabled": true,
     "mergedMining": false,
     "clusterForks": 1,
-    "minerTimeout": 300,
-    "sslCert": "/etc/letsencrypt/live/pool.example.com/fullchain.pem",
-    "sslKey": "/etc/letsencrypt/live/pool.example.com/privkey.pem",
+    "minerTimeout": 900,
+    "sslCert": "./cert.pem",
+    "sslKey": "./privkey.pem",
     "sslCA": "./chain.pem",
+    "requireNoteDomains": [
+      "epicbox.nonkyc.io"
+    ],
+    "maxUnauthenticatedPerIp": 10,
+    "loginTimeout": 5,
     "ports": [
       {
-        "port": 3333,
-        "desc": "Epic stratum (plain TCP)"
-      },
-      {
-        "port": 3334,
-        "desc": "Epic stratum over TLS (encrypted)",
-        "tls": true
-      },
-      {
-        "port": 8443,
-        "desc": "Epic stratum over TLS (alternative port)",
-        "tls": true
-      },
-      {
-        "port": 993,
-        "desc": "Epic stratum over TLS (alternative port)",
-        "tls": true
-      },
-      {
-        "port": 2053,
-        "desc": "Epic stratum over TLS (alternative port)",
-        "tls": true
+        "port": 13343,
+        "desc": "test"
       }
     ],
     "banning": {
@@ -60,26 +45,18 @@
     },
     "slushMining": {
       "enabled": true,
-      "weight": 86400
+      "weight": 300
     },
-    "bindIp": "0.0.0.0",
-    "requireNoteDomains": [
-      "epicbox.nonkyc.io"
-    ],
-    "allowIPs": [],
-    "maxConnectionsPerIp": 100,
-    "maxUnauthenticatedPerIp": 10,
-    "loginTimeout": 20,
-    "maxConnections": 3000,
+    "bindIp": "127.0.0.1",
     "validateShares": true,
     "varDiff": {
-      "startDiff": 20000,
-      "minDiff": 2000,
-      "maxDiff": 50000000,
-      "targetTime": 20,
-      "retargetTime": 60,
-      "variancePercent": 30,
-      "maxJump": 100
+      "startDiff": 40,
+      "minDiff": 1,
+      "maxDiff": 100000,
+      "targetTime": 8,
+      "retargetTime": 2,
+      "variancePercent": 20,
+      "maxJump": 300
     },
     "nodeLogin": "esYd2vznULSZPn8yQG1SpViF1xEdSs4Fa4n91tkhdSxZCNVdkBt4@epicbox.epiccash.com"
   },
@@ -92,33 +69,25 @@
     "transferFee": 50,
     "dynamicTransferFee": true,
     "minerPayFee": true,
-    "minPayment": 50000000,
-    "maxTransactionAmount": 2000000000,
-    "denomination": 100,
-    "dryRun": true,
-    "maxPaymentsPerRound": 10,
-    "minConfirmations": 3,
-    "pendingTimeoutHours": 48,
-    "reserve": 5000000,
-    "onlyAccounts": []
+    "minPayment": 10000,
+    "maxTransactionAmount": 100000000,
+    "denomination": 100
   },
   "blockUnlocker": {
-    "enabled": true,
-    "interval": 60,
-    "depth": 1440,
+    "enabled": false,
+    "interval": 30,
+    "depth": 40,
     "poolFee": 1,
-    "networkFee": 0,
-    "fixBlockHeightRPC": false,
-    "donations": {
-      "esYd2vznULSZPn8yQG1SpViF1xEdSs4Fa4n91tkhdSxZCNVdkBt4@epicbox.epiccash.com": 0.5
-    }
+    "devDonation": 0,
+    "networkFee": 0.2,
+    "fixBlockHeightRPC": false
   },
   "api": {
     "enabled": true,
     "hashrateWindow": 600,
     "updateInterval": 5,
     "bindIp": "127.0.0.1",
-    "port": 8117,
+    "port": 18117,
     "blocks": 30,
     "payments": 30,
     "password": "CHANGE_ME_API_PASSWORD",
@@ -131,9 +100,9 @@
   },
   "redis": {
     "host": "127.0.0.1",
-    "port": 6379,
+    "port": 16379,
     "auth": "CHANGE_ME_REDIS_PASSWORD",
-    "db": 0,
+    "db": 1,
     "cleanupInterval": 15
   },
   "prices": {
@@ -203,20 +172,10 @@
   },
   "node": {
     "host": "127.0.0.1",
-    "port": 3416,
-    "api": {
-      "host": "127.0.0.1",
-      "port": 3413
-    }
-  },
-  "wallet": {
-    "host": "127.0.0.1",
-    "port": 3420,
-    "user": "epic",
-    "secretFile": "/path/to/wallet/.owner_api_secret"
+    "port": 23416
   },
   "hasher": {
-    "path": "/opt/epic-nodejs-pool/hasher/epichash",
+    "path": "/root/claude/epic-nodejs-pool/hasher/epichash",
     "args": [
       "--raw"
     ],

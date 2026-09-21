@@ -1,5 +1,14 @@
 # Changes
 
+## 1.1.0
+
+* **New: the pool can check the shares itself** (`poolServer.validateShares: true`, `lib/poolValidating.js`). The node validates one share at a time (about half a
+  second each) and has one share difficulty for everybody, so with a busy pool the answers came seconds late, shares of miners whose connection had been cut
+  meanwhile were lost, and a fast miner was flooded with shares. Now every miner gets a difficulty of its own (variable difficulty), RandomX shares are checked
+  by the pool (helper `hasher/epichash`, RandomX of the Epic node, tested against shares the real node accepted) and answered at once, and only blocks go to
+  the node. ProgPow / Cuckoo shares are still relayed. `validateShares: false` keeps the old behaviour.
+* Site: the texts about a fixed difficulty are changed.
+
 ## 1.0.1
 
 * **Fix: block rewards could not be split.** With slush mining (`poolServer.slushMining.enabled`) the round scores were written to the key

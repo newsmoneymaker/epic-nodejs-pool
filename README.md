@@ -7,8 +7,13 @@ cryptonight modules, mail and Telegram notifications, merged mining) was removed
 
 ## What it does
 
-* **Stratum proxy** (plain TCP and TLS ports): every miner connection is relayed to the Epic node's stratum; the pool watches jobs and share
-  replies, records shares (RandomX, ProgPow, Cuckoo) weighted by their chance to find a block, and detects found blocks.
+* **Stratum server** (plain TCP and TLS ports), two modes:
+  * `poolServer.validateShares: true` (recommended, since 1.1.0): the pool keeps ONE connection to the node stratum for the block templates, gives every
+    miner the job with a **share difficulty of its own** (variable difficulty, about one share every 20 s), recomputes the RandomX hash of every
+    RandomX share itself with a helper (`hasher/epichash`, built from the RandomX of the Epic node), answers at once and hands only real blocks
+    to the node. The node no longer is the bottleneck (it validates about two shares a second). ProgPow and Cuckoo shares are relayed to the node.
+  * `validateShares: false` (1.0.x behaviour): every miner connection is relayed to the node's own stratum, one fixed share difficulty for all,
+    the node validates every share.
 * **Accounts** are epicbox addresses: `ADDRESS`, `ADDRESS+worker`, with a reward mode prefix `prop:` / `solo:`, and an optional deposit note for
   exchanges (`ADDRESS.123456` or `ADDRESS#note`). Exchange domains can be listed in `poolServer.requireNoteDomains`: a login without the note
   is refused, so nothing is paid to a shared exchange address without its note.
@@ -50,7 +55,7 @@ The pool takes a **developer donation** from the reward of every block it finds,
 See [docs/INSTALL.md](docs/INSTALL.md): the Epic node and wallet settings, Redis, the pool services (systemd templates in
 `deployment/`), the website and the first payout rehearsal.
 
-Requirements: Linux, Node.js 18 or newer, Redis, the Epic node (`epic`, 4.0.x) and wallet (`epic-wallet`, 4.0.x), a web server for the
+Requirements: Linux, Node.js 18 or newer, a C++ compiler for the RandomX helper (validating mode), Redis, the Epic node (`epic`, 4.0.x) and wallet (`epic-wallet`, 4.0.x), a web server for the
 website and a TLS certificate for the TLS stratum ports.
 
 ## Tests

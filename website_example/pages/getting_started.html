@@ -9,7 +9,7 @@
                 <div class="stats">
                     <div><i class="fa fa-cloud"></i> Pool address: <span class="gsHost"></span></div>
                     <div><i class="fa fa-cubes"></i> Algorithms: RandomX, Epic variant (CPU); ProgPow (GPU); Cuckoo (GPU)</div>
-                    <div><i class="fa fa-lock"></i> Difficulty is fixed by the network node (no vardiff)</div>
+                    <div><i class="fa fa-lock"></i> Share difficulty adjusts to your hashrate automatically (about one share every 20 seconds)</div>
                 </div>
             </div>
 
@@ -57,7 +57,7 @@
                     <li>A miner built for standard RandomX (for example stock XMRig) will produce <strong>invalid shares</strong> on this pool: the hash does not match what the node computes.</li>
                     <li>Use <code>epic-miner</code> (official) or a miner that explicitly supports Epic / <code>rx/epic</code>.</li>
                     <li>The block header is hashed as <code>pre_pow</code> followed by the 64-bit nonce (big-endian); the RandomX seed is the epoch seed sent by the node with every job.</li>
-                    <li>RandomX in fast mode needs about 2.3 GB of RAM; the pool difficulty is fixed by the node (no vardiff).</li>
+                    <li>RandomX in fast mode needs about 2.3 GB of RAM; the pool sets the share difficulty for every miner itself (variable difficulty).</li>
                 </ul>
             </div>
 
@@ -123,7 +123,7 @@ cargo build --release                                  # CPU (RandomX)
                 <div class="stats">
                     <div><i class="fa fa-cloud"></i> Адрес пула: <span class="gsHost"></span></div>
                     <div><i class="fa fa-cubes"></i> Алгоритмы: RandomX, вариант Epic (CPU); ProgPow (GPU); Cuckoo (GPU)</div>
-                    <div><i class="fa fa-lock"></i> Сложность фиксирована нодой сети (vardiff нет)</div>
+                    <div><i class="fa fa-lock"></i> Сложность шар подстраивается под ваш хешрейт автоматически (примерно одна шара в 20 секунд)</div>
                 </div>
             </div>
 
@@ -171,7 +171,7 @@ cargo build --release                                  # CPU (RandomX)
                     <li>Майнер, собранный под стандартный RandomX (например, обычный XMRig), будет присылать на этот пул <strong>невалидные шары</strong>: хеш не совпадает с тем, что считает нода.</li>
                     <li>Используйте <code>epic-miner</code> (официальный) или майнер, в котором явно есть поддержка Epic / <code>rx/epic</code>.</li>
                     <li>Заголовок блока хешируется как <code>pre_pow</code> и следующий за ним 64-битный nonce (big-endian); seed RandomX - это seed эпохи, который нода присылает с каждым заданием.</li>
-                    <li>RandomX в быстром режиме требует около 2,3 ГБ ОЗУ; сложность на пуле фиксирована нодой (vardiff нет).</li>
+                    <li>RandomX в быстром режиме требует около 2,3 ГБ ОЗУ; пул сам задаёт сложность шар каждому майнеру (переменная сложность).</li>
                 </ul>
             </div>
 

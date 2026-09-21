@@ -116,7 +116,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
 	m = await sub('sc', 300, 'Cuckoo'); check('cuckoo share ok', m.result === 'ok');
 	m = await sub('e1', 13, 'RandomX'); check('low difficulty ошибка проброшена', m.error && m.error.code === -32501);
 	m = await sub('e2', 14, 'RandomX'); check('stale ошибка проброшена', m.error && m.error.code === -32503);
-	await sleep(300);
+	await sleep(1000);           // the pool writes the shares to redis asynchronously; a busy machine needs time
 
 	// 6. что записалось в Redis (до блока)
 	const shares = await rc('hgetall', 'Epic Cash:shares_actual:prop:roundCurrent');
