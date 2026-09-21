@@ -51,7 +51,7 @@
             <h3 class="push-up-15">About the algorithm (RandomX, Epic variant)</h3>
             <div class="card padding-l-10 padding-r-10">
                 <p>CPUs mine <strong>RandomX</strong>, but Epic Cash uses its own <strong>modified RandomX</strong>, not the standard one from Monero (<code>rx/0</code>).
-                    The Epic node's RandomX has different instruction frequencies and different AES generator keys (taken from Wownero), so the same input gives a different hash.
+                    The Epic node's RandomX has different instruction frequencies and different AES generator keys, so the same input gives a different hash.
                     In XMRig terms this variant is called <code>rx/epic</code>.</p>
                 <ul>
                     <li>A miner built for standard RandomX (for example stock XMRig) will produce <strong>invalid shares</strong> on this pool: the hash does not match what the node computes.</li>
@@ -165,7 +165,7 @@ cargo build --release                                  # CPU (RandomX)
             <h3 class="push-up-15">Об алгоритме (RandomX, вариант Epic)</h3>
             <div class="card padding-l-10 padding-r-10">
                 <p>На CPU майнится <strong>RandomX</strong>, но у Epic Cash он <strong>изменённый</strong>, а не стандартный из Monero (<code>rx/0</code>).
-                    В RandomX ноды Epic другие частоты инструкций и другие ключи AES-генератора (как у Wownero), поэтому те же данные дают другой хеш.
+                    В RandomX ноды Epic другие частоты инструкций и другие ключи AES-генератора, поэтому те же данные дают другой хеш.
                     В терминах XMRig этот вариант называется <code>rx/epic</code>.</p>
                 <ul>
                     <li>Майнер, собранный под стандартный RandomX (например, обычный XMRig), будет присылать на этот пул <strong>невалидные шары</strong>: хеш не совпадает с тем, что считает нода.</li>
