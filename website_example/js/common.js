@@ -606,7 +606,9 @@ function getBlockRowElement(block, jsonString, stats){
     // the explorer addresses a block by its height (a hash would be read as a number and open the wrong block)
     function formatBlockLink(hash, stats, height){
         var blockUrl = getBlockchainUrl(height, stats);
-        return blockUrl ? '<a target="_blank" href="' + blockUrl + '">' + hash + '</a>' : hash;
+        // the hash is long: show its ends, the whole value is in the tooltip (and in the link)
+        var shown = hash && hash.length > 24 ? hash.substring(0, 10) + '...' + hash.substring(hash.length - 8) : hash;
+        return blockUrl ? '<a target="_blank" href="' + blockUrl + '" title="' + hash + '">' + shown + '</a>' : '<span title="' + hash + '">' + shown + '</span>';
     }
 
     var blockStatusClasses = {
@@ -636,7 +638,7 @@ function getBlockRowElement(block, jsonString, stats){
         '<td class="col3">' + block.height + '</td>' +
         '<td class="col4">' + block.difficulty + '</td>' +
         '<td class="col5">' + formatBlockLink(block.hash, stats, block.height) + '</td>' +
-        '<td class="col5" title="Miners Address">' + block.address + '</td>' +
+        '<td class="col5" title="Miners Address: ' + block.address + '">' + (block.address && block.address.length > 24 ? block.address.substring(0, 10) + '...' + block.address.substring(block.address.length - 8) : block.address) + '</td>' +
         '<td class="col6" align="right" title="' + block.shares + ' shares submitted">' + formatLuck(block.difficulty, block.shares, block.solo) + '</td>' +
         '<td class="col7">' + block.maturity + '</td>';
 
