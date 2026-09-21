@@ -243,7 +243,8 @@ function formatLuck(difficulty, shares, solo=false) {
     // Only an approximation to reverse the calculations done in pool.js, because the shares with their respective times are not recorded in redis
     // Approximation assumes equal pool hashrate for the whole round
     // Could potentially be replaced by storing the sum of all job.difficulty in the redis db.
-    if (lastStats.config.slushMiningEnabled) {
+    // the correction only makes sense when the pool publishes blockTime; without it the result is NaN and the effort shows "?"
+    if (lastStats.config.slushMiningEnabled && lastStats.config.blockTime > 0) {
         // Uses integral calculus to calculate the average of a dynamic function
         var accurateShares = 1/lastStats.config.blockTime * (  // 1/blockTime to get the average
             shares * lastStats.config.weight * (                  // Basically calculates the 'area below the graph' between 0 and blockTime
