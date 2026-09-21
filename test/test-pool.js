@@ -161,6 +161,17 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
 	c.send({id: 'k', jsonrpc: '2.0', method: 'keepalive'});
 	m = await c.wait(x => x.id === 'k'); check('keepalive транзитом', m.result === 'ok');
 
+	// 9. медленный узел: шара отправлена, майнер отключился до ответа ноды, ответ приходит позже: шара должна быть засчитана
+	const lateBefore = parseInt((await rc('hget', 'Epic Cash:unique_workers:' + canonical + '~late', 'hashes')) || 0);
+	const late = client();
+	late.send({id: 'l1', jsonrpc: '2.0', method: 'login', params: {login: 'prop:' + addr + '+late', pass: 'x', agent: 'test'}});
+	await late.wait(x => x.method === 'login'); await late.wait(x => x.method === 'job');
+	late.send({id: 'l2', jsonrpc: '2.0', method: 'submit', params: {height: 3717100, job_id: 0, nonce: 16, pow: {RandomX: [0]}}});
+	await sleep(150); late.sock.destroy();            // the connection dies, the node answers after 0.8 s
+	await sleep(2500);
+	const lateAfter = parseInt((await rc('hget', 'Epic Cash:unique_workers:' + canonical + '~late', 'hashes')) || 0);
+	check('шара, ответ на которую пришёл после отключения майнера, засчитана', lateAfter > lateBefore, 'hashes ' + lateBefore + ' -> ' + lateAfter);
+
 	r.quit();
 	console.log(failed ? '\nПРОВАЛЕНО: ' + failed : '\nВСЕ ПРОВЕРКИ ПРОШЛИ');
 	process.exit(failed ? 1 : 0);

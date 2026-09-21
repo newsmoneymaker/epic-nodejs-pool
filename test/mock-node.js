@@ -52,6 +52,7 @@ net.createServer(sock => {
 				else if (n === 13) sock.write(reply(m.id, 'submit', null, {code: -32501, message: 'Share rejected due to low difficulty'}));
 				else if (n === 14) sock.write(reply(m.id, 'submit', null, {code: -32503, message: 'Solution Submitted too late'}));
 				else if (n === 15) sock.write(reply(m.id, 'submit', null, {code: -32502, message: 'Failed to validate solution'}));
+				else if (n === 16) setTimeout(function () { try { sock.write(reply(m.id, 'submit', 'ok')); } catch (e) {} }, 800);   // a slow node: the answer comes 0.8 s later
 				else sock.write(reply(m.id, 'submit', 'ok'));
 			} else {
 				sock.write(reply(m.id, m.method, null, {code: -32601, message: 'Method not found'}));
