@@ -286,6 +286,10 @@ $(function(){
     if (typeof github !== 'undefined' && github) {
         $('#menu-content').append('<li><a target="_new" rel="noopener" href="'+github+'"><i class="fa fa-github"></i> <span data-tkey="sourceCode">Source code (GitHub)</span></a></li>');
     }
+    if (typeof allPoolsUrl !== 'undefined' && allPoolsUrl) {
+        var apLabel = (typeof langCode !== 'undefined' && langCode === 'ru') ? 'Все пулы pool-pay.com' : 'All pool-pay.com pools';
+        $('#menu-content').append('<li><a href="'+allPoolsUrl+'"><i class="fa fa-th-large"></i> '+apLabel+'</a></li>');
+    }
     if (typeof facebook !== 'undefined' && facebook) {
         $('#menu-content').append('<li><a target="_new" href="'+facebook+'"><i class="fa fa-facebook"></i> <span data-tkey="facebook">Facebook</span></a></li>');
     }

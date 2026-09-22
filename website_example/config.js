@@ -15,6 +15,7 @@ var telegram = "";
 var discord = "";
 var github = "";
 var minerDownload = "https://epic.pool-pay.com/downloads/";      // poolpayminer (optional menu item; leave empty to hide)
+var allPoolsUrl = "https://all.pool-pay.com/";      // link to the page listing every pool-pay.com pool
 
 // No exchange data source for Epic, market widgets are hidden
 var marketCurrencies = [];
