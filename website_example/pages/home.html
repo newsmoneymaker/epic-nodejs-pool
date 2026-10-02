@@ -282,14 +282,32 @@ currentPage = {
             }
             updateText('poolHashrate', 'PROP: ' + getReadableHashRateString(lastStats.pool.hashrate) + '/sec');
             updateText('poolHashrateSolo', 'SOLO: ' + getReadableHashRateString(lastStats.pool.hashrateSolo) + '/sec');
-            var hashPowerSolo = lastStats.pool.hashrateSolo / (lastStats.network.difficulty / lastStats.config.coinDifficultyTarget) * 100;
-            updateText ('hashPowerSolo', hashPowerSolo.toFixed(2) + '%');
-            var hashPower = lastStats.pool.hashrate / (lastStats.network.difficulty / lastStats.config.coinDifficultyTarget) * 100;
-            updateText('hashPower', hashPower.toFixed(2) + '%');
 
+            // Epic is multi-algorithm (randomx/progpow/cuckoo, one shared chain): each has its OWN difficulty, orders
+            // of magnitude apart. pool.hashrate/pool.hashrateSolo are summed across algorithms, so dividing that mixed
+            // number by ONE algorithm's difficulty (as this used to do) is a category error -- it showed "block found
+            // in ~4 minutes" from a mostly-progpow hashrate measured against randomx's much lower difficulty, when the
+            // real figure (progpow's own, ~1300x higher difficulty) was closer to 9 days. Combine each algorithm's own
+            // block-finding RATE (hashrate/difficulty) instead; summing rates of independent Poisson processes is the
+            // mathematically correct way to combine "whichever algorithm finds the next block first".
+            function blockRate(hashrateByAlgo) {
+                var rate = 0;
+                var byAlgo = hashrateByAlgo || {};
+                for (var algo in byAlgo) {
+                    var diff = lastStats.network.difficulties && lastStats.network.difficulties[algo];
+                    if (diff > 0 && byAlgo[algo] > 0) rate += byAlgo[algo] / diff;
+                }
+                return rate; // blocks/sec this pool is expected to find, across all its algorithms combined
+            }
+            var algoCount = lastStats.network.difficulties ? Object.keys(lastStats.network.difficulties).length : 1;
+            var networkRate = algoCount / lastStats.config.coinDifficultyTarget; // each algo's difficulty retargets toward one block per coinDifficultyTarget seconds
+            var poolRateSolo = blockRate(lastStats.pool.hashrateByAlgoSolo);
+            var poolRate = blockRate(lastStats.pool.hashrateByAlgo);
+            updateText('hashPowerSolo', (networkRate > 0 ? (poolRateSolo / networkRate * 100) : 0).toFixed(2) + '%');
+            updateText('hashPower', (networkRate > 0 ? (poolRate / networkRate * 100) : 0).toFixed(2) + '%');
 
             // no hashrate = no estimate (a division by zero would print "Infinity years")
-            updateText('blockSolvedTime', lastStats.pool.hashrate > 0 ? getReadableTime(lastStats.network.difficulty / lastStats.pool.hashrate) : 'N/A');
+            updateText('blockSolvedTime', poolRate > 0 ? getReadableTime(1 / poolRate) : 'N/A');
         }
     }
 };
