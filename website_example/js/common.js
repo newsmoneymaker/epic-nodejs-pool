@@ -2299,11 +2299,27 @@ function home_InitTemplate(parentStats, siblingStats) {
     updateText('poolHashrateSolo', `SOLO: ${getReadableHashRateString(parentStats.pool.hashrateSolo)}/sec`);
 
 
-    var hashPowerSolo = parentStats.pool.hashrateSolo / (parentStats.network.difficulty / parentStats.config.coinDifficultyTarget) * 100;
-    updateText ('hashPowerSolo', hashPowerSolo.toFixed(2) + '%');
-
-    var hashPower = parentStats.pool.hashrate / (parentStats.network.difficulty / parentStats.config.coinDifficultyTarget) * 100;
-    updateText('hashPower', hashPower.toFixed(2) + '%');
+    // Epic is multi-algorithm (randomx/progpow/cuckoo, one shared chain): each has its OWN difficulty, orders of
+    // magnitude apart, so a pool.hashrate summed across algorithms divided by ONE algorithm's difficulty is a
+    // category error (showed "2 minutes" / "4 minutes" instead of the real figure in hours-to-days). This is a
+    // SECOND copy of the same calculation as pages/home.html's inline script -- this one runs via home_InitTemplate
+    // and was overwriting that fix's #blockSolvedTime/#hashPower/#hashPowerSolo right back to the wrong numbers.
+    // Sum each algorithm's own block-finding rate (hashrate/difficulty) instead of mixing them.
+    function epicBlockRate(hashrateByAlgo) {
+        var rate = 0;
+        var byAlgo = hashrateByAlgo || {};
+        for (var algo in byAlgo) {
+            var diff = parentStats.network.difficulties && parentStats.network.difficulties[algo];
+            if (diff > 0 && byAlgo[algo] > 0) rate += byAlgo[algo] / diff;
+        }
+        return rate;
+    }
+    var algoCount = parentStats.network.difficulties ? Object.keys(parentStats.network.difficulties).length : 1;
+    var networkRate = algoCount / parentStats.config.coinDifficultyTarget;
+    var poolRateSolo = epicBlockRate(parentStats.pool.hashrateByAlgoSolo);
+    var poolRate = epicBlockRate(parentStats.pool.hashrateByAlgo);
+    updateText('hashPowerSolo', (networkRate > 0 ? (poolRateSolo / networkRate * 100) : 0).toFixed(2) + '%');
+    updateText('hashPower', (networkRate > 0 ? (poolRate / networkRate * 100) : 0).toFixed(2) + '%');
 
 
     updateText(`poolMiners${coin}`, `${parentStats.pool.miners}/${parentStats.pool.minersSolo}`);
@@ -2328,7 +2344,7 @@ function home_InitTemplate(parentStats, siblingStats) {
     updateText('paymentsInterval', getReadableTime(parentStats.config.paymentsInterval));
     updateText('paymentsMinimum', getReadableCoin(parentStats, parentStats.config.minPaymentThreshold));
 
-    updateText('blockSolvedTime', getReadableTime(parentStats.network.difficulty / parentStats.pool.hashrate));
+    updateText('blockSolvedTime', poolRate > 0 ? getReadableTime(1 / poolRate) : 'N/A');
 
     updateText(`currentEffort${coin}`, getRoundEffort(parentStats) + '%');
 }
